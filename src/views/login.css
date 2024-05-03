@@ -1,0 +1,76 @@
+.login-container{
+    box-shadow: 5px 5px 10px rgba(20, 87, 64, 0.5);
+    border: 2px ; /* Add bold black border */
+    border-radius: 20px;
+  padding: 20px; /* Add some padding inside the border */
+  width: 50%; /* Set the width to 50% of the viewport */
+  /* max-width: 500px;  */
+  margin: 0 auto; /* Center the container horizontally */
+  display: flex; /* Use flexbox */
+  flex-direction: column; /* Arrange children in a column */
+  justify-content: center; /* Center the content vertically */
+  align-items: center; /* Center the content horizontally */
+  height: 50vh;
+  max-height: 400px; /* Set height to 70% of the viewport height */
+  margin-top: 100px;
+  background-color: #D9D9D9;
+    }
+    .form-label {
+        font-family: "Anek Devanagari", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+    }
+    
+    .form-text {
+        color: #1e2203;
+    }
+    
+    #button-group {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1rem;
+    }
+    
+    /* Button style */
+    .btn {
+        padding: 0.5rem 1rem;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        margin-right: 0.5rem;
+    }
+    
+    .btn-primary {
+        background-color: #35452B;
+        border-color: #35452B;
+        color: #fff;
+    }
+    
+    .btn-primary:hover {
+        background-color: #727D6B;
+        border-color: #727D6B;
+    }
+    
+    
+    body{
+        background-color: #768350;
+    }
+    .home-nav {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        color: #768350;
+      
+      }
+   .login-nav{
+    background-color:  #D9D9D9;
+    height: 60px;
+   }

@@ -1,0 +1,58 @@
+/* register.css */
+
+/* Styles for login navigation */
+.home-nav {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  color: #768350;
+}
+
+.login-nav {
+  background-color: #D9D9D9;
+  height: 60px;
+}
+
+/* Styles for login container */
+.login-container {
+  box-shadow: 5px 5px 10px rgba(20, 87, 64, 0.5);
+  border: 2px black; 
+  border-radius: 20px;
+  padding: 20px; 
+  width: 60vh; 
+  max-width: 80%; 
+  margin: 0 auto; 
+  margin-top: 80px;
+  background-color: #D9D9D9;
+  height: 800px;
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: center; 
+}
+
+/* Styles for form elements */
+.form-control {
+  width: 100%; /* Set width to 100% for full width */
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+/* Styles for submit button */
+.btn-primary {
+  background-color: #35452B;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #727D6B;
+}
