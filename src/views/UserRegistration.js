@@ -1,46 +1,37 @@
-// ServiceProviderRegister.js
-
 import React, { useState } from "react";
-import "./ServiceProviderRegister.css";
+import "./UserRegistration.css";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import Cookies from "js-cookie";
 
-const ServiceProviderRegister = () => {
+const UserRegister = () => {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
-  const [address, setAddress] = useState("");
-  const [hotelName, setHotelName] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const history = useHistory();
-  // const [userType, setUserType] = useState('user');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const serviceProviderData = {
+    const userData = {
       userName,
       email,
       phoneNumber,
       password,
-      address,
-      hotelName,
-      // userType
     };
+    console.log("Service Provider Data:", userData);
 
-    // Send serviceProviderData to backend API
-    console.log("Service Provider Data:", serviceProviderData);
     try {
       // Make POST request to backend API using Axios
       const response = await axios.post(
         "http://localhost:9030/api/adduser",
-        serviceProviderData,
+        userData,
         {
           headers: {
             "Content-Type": "application/json",
-            role: "serviceprovider",
+            role: "user",
           },
         }
       );
@@ -50,6 +41,8 @@ const ServiceProviderRegister = () => {
       console.log("User successfully registered.");
       Cookies.set("token", response.data.token, { expires: 7 });
       history.push("/login", { registrationSuccess: true });
+
+    
     } catch (error) {
       if (error.response && error.response.status === 400) {
         setErrorMessage("User already exists");
@@ -77,8 +70,8 @@ const ServiceProviderRegister = () => {
           <div data-thq="thq-close-menu" className="home-close-menu"></div>
         </div>
       </div>
-      <div className="login-container-service">
-        <form onSubmit={handleSubmit} className="form-handler">
+      <div className="login-container">
+        <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="userName" className="form-label">
               Username
@@ -131,33 +124,6 @@ const ServiceProviderRegister = () => {
               required
             />
           </div>
-          <div className="mb-3">
-            <label htmlFor="address" className="form-label">
-              Address
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="address"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="hotelName" className="form-label">
-              Hotel Name
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="hotelName"
-              value={hotelName}
-              onChange={(e) => setHotelName(e.target.value)}
-              required
-            />
-          </div>
-
           <button type="submit" className="btn btn-primary">
             Register
           </button>
@@ -167,4 +133,4 @@ const ServiceProviderRegister = () => {
   );
 };
 
-export default ServiceProviderRegister;
+export default UserRegister;
