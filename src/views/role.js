@@ -8,13 +8,15 @@ const Role = (props) => {
   };
   
   
-  const handleUserRegister = () => {
-    console.log('User button clicked');
-  };
+
 
   const handleServiceProviderRegister = () => {
    nav('/ServiceProviderRegister');
   };
+
+  const UserRegister = () => {
+    nav('/UserRegister');
+   };
 
   return (
     <div>
@@ -28,7 +30,7 @@ const Role = (props) => {
         <div className="user-container">
           <h1>User</h1>
           <p>Register as User to book hotel rooms of your choice anytime and anywhere</p>
-          <button type="button" className="btn btn-primary" onClick={handleUserRegister}>
+          <button type="button" className="btn btn-primary" onClick={UserRegister}>
             User
           </button>
         </div>

@@ -1,0 +1,65 @@
+/* UserRegister.css */
+
+/* Styles for login navigation */
+.home-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    color: #768350;
+  }
+  
+  .login-nav {
+    background-color: #D9D9D9;
+    height: 60px;
+  }
+  
+  /* Styles for login container */
+  .login-container {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    padding: 40px;
+    /* padding-top: 10rem; */
+    width: 80%;
+    max-width: 500px;
+    margin: 0 auto;
+    margin-top: 50px;
+    min-height: 50vh; /* Ensure the container takes up 100% height of viewport */
+    background-color:white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Styles for form elements */
+  .form-control {
+    width: calc(100% - 20px); /* Adjusted width to leave some space for padding */
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  .form-label {
+    margin-bottom: 5px;
+  }
+  
+  /* Styles for submit button */
+  .btn-primary {
+    background-color: #35452B;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    width: calc(100% - 20px); /* Adjusted width to match form inputs */
+  }
+  
+  .btn-primary:hover {
+    background-color: #727D6B;
+  }
+  
