@@ -35,12 +35,22 @@
 
 .nav-item {
   margin-right: 20px;
+
 }
 
-.nav-links {
-  color: #fff;
-  text-decoration: none;
-}
+.nav-link {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px; /* Add padding to the links */
+    transition: background-color 0.7s;/* Add transition effect */
+  }
+
+.nav-options {
+    display: flex;
+    gap: 20px; /* Add spacing between options */
+    margin-left:6rem;
+  }
+  
 
 .menu-icon {
   display: none;
@@ -101,10 +111,6 @@
     margin-right: 20px;
   }
   
-  .nav-links {
-    color: #fff;
-    text-decoration: none;
-  }
   
   .menu-icon {
     display: none;
@@ -118,7 +124,7 @@
     display: flex;
     align-items: center;
     margin-right: 20px; /* Adjust margin to move it towards the right */
-    margin-left: 35rem; /* Align search bar to the right */
+    margin-left: 15rem; /* Align search bar to the right */
 
   }
   
@@ -165,14 +171,12 @@
       margin-bottom: 20px;
     }
   
-    .nav-links {
-      color: #fff;
-      text-decoration: none;
-    }
   
-    .nav-links:hover {
+    .nav-link:hover,
+    .nav-link.active  {
       color: #ff6b6b;
       transition: all 0.3s ease;
+      
     }
   }
   
@@ -215,26 +219,3 @@
     cursor: pointer;
   }
 
-
-/* Dropdown menu styles */
-.dropdown-menu {
-    display: none;
-    position: fixed; /* Fixed position to cover the entire viewport */
-    top: 80px; /* Adjust to match navbar height */
-    left: 0; /* Align to the left side */
-    background-color: #00204a;
-    width: 300px; /* Increase the width */
-    height: 100vh; /* Fit the entire page height */
-    z-index: 1000; /* Ensure it's above other content */
-    padding: 20px; /* Add padding */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add box shadow */
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  /* Adjust the menu to appear when isMenuOpen is true */
-  .dropdown-menu.active {
-    display: block;
-  }
