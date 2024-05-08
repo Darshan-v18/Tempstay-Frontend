@@ -3,12 +3,15 @@
 import React, { useState, useEffect } from "react";
 import "./login.css";
 import ForgotPassword from "./ForgotPassword";
+import axios from "axios";
 import Cookies from "js-cookie";
+import OTPPopup from "./OTPPopup";
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userType, setUserType] = useState("user");
+  const [showOTPPopup, setShowOTPPopup] = useState(false);
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -41,12 +44,46 @@ const Login = (props) => {
     nav("/ForgotPassword");
   };
 
-  const handleSubmit = (event) => {
+  const handleLoginSuccess = () => {
+    setShowOTPPopup(true);
+  };
+
+  const handleOTPSubmit = async (otp) => {
+    // Handle OTP submission here
+    setShowOTPPopup(false);
+    // nav("/UserPanel");
+    // Proceed with your logic after OTP submission
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     // Add your form submission logic here
-    console.log("Email:", email);
-    console.log("Password:", password);
-    console.log("User Type:", userType);
+    const userData = {
+      email,
+      password,
+    };
+    console.log("User Data:", userData, userType);
+
+    try {
+      // Make POST request to backend API using Axios
+      const response = await axios.post(
+        "http://localhost:9030/api/login",
+        userData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            role: userType,
+          },
+        }
+      );
+
+      // Check if request was successful
+      console.log("Response:", response.data); // Log the response data
+      console.log("User login successfully");
+      handleLoginSuccess();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -74,8 +111,8 @@ const Login = (props) => {
                 type="radio"
                 id="serviceProvider"
                 name="userType"
-                value="serviceProvider"
-                checked={userType === "serviceProvider"}
+                value="serviceprovider"
+                checked={userType === "serviceprovider"}
                 onChange={handleUserTypeChange}
               />
               <label htmlFor="serviceProvider">Service provider</label>
@@ -119,8 +156,8 @@ const Login = (props) => {
             Login
           </button>
         </form>
+        <div>{showOTPPopup && <OTPPopup onSubmit={handleOTPSubmit} />}</div>
       </div>
-      <ForgotPassword userType={userType} />
     </div>
   );
 };
