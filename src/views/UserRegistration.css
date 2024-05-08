@@ -48,7 +48,7 @@
   
   /* Styles for submit button */
   .btn-primary {
-    background-color: #35452B;
+    background-color: #1e3e7b;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -60,6 +60,6 @@
   }
   
   .btn-primary:hover {
-    background-color: #727D6B;
+    background-color: #000000;
   }
   
