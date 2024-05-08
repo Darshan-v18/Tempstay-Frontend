@@ -1,0 +1,240 @@
+/* Navbar styles */
+.navbar {
+    background-color: #005792;
+    height: 80px; /* Increase the height */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    position: relative; /* Make it a positioning context */
+  }
+  
+  .navbar-container {
+    display: flex;
+    align-items: center;
+  }
+  /* Navbar styles */
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-logo {
+  color: #fff;
+  font-size: 1.8rem;
+  text-decoration: none;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  margin-right: 20px;
+}
+
+.nav-links {
+  color: #fff;
+  text-decoration: none;
+}
+
+.menu-icon {
+  display: none;
+  color: #fff;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+/* Options menu styles */
+.options-menu {
+  position: fixed;
+  top: 0;
+  right: -200px; /* Initially hidden */
+  background-color: #333;
+  width: 200px;
+  height: 100vh;
+  transition: right 0.5s ease;
+}
+
+.options-menu.open {
+  right: 0;
+}
+
+.options-menu ul {
+  list-style: none;
+  padding: 0;
+}
+
+.options-menu li {
+  padding: 10px 20px;
+}
+
+.options-menu li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+
+
+.dashboard-content {
+  padding: 20px;
+}
+
+  .navbar-logo {
+    color: #fff;
+    font-size: 1.8rem; /* Increase the font size */
+    text-decoration: none;
+  }
+  
+  .nav-menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .nav-item {
+    margin-right: 20px;
+  }
+  
+  .nav-links {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .menu-icon {
+    display: none;
+    color: #fff;
+    font-size: 1.8rem; /* Increase the font size */
+    cursor: pointer;
+  }
+  
+  /* Search bar styles */
+  .search-bar {
+    display: flex;
+    align-items: center;
+    margin-right: 20px; /* Adjust margin to move it towards the right */
+    margin-left: 35rem; /* Align search bar to the right */
+
+  }
+  
+  .search-bar input {
+    padding: 10px;
+    border: none;
+    border-radius: 15px;
+    margin-right: 5px;
+    width: 400px;
+  }
+  
+  .search-bar button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  /* Responsive styles */
+  @media screen and (max-width: 960px) {
+    .menu-icon {
+      display: block;
+    }
+  
+    .nav-menu {
+      display: flex;
+      flex-direction: column;
+      width: 300px; /* Width of the dashboard */
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      right: -300px; /* Initially hidden */
+      background-color: #333;
+      padding: 20px;
+      transition: right 0.5s ease;
+    }
+  
+    .nav-menu.active {
+      right: 0; /* Displayed from the right */
+      transition: right 0.5s ease;
+      z-index: 1;
+    }
+  
+    .nav-item {
+      margin-right: 0;
+      margin-bottom: 20px;
+    }
+  
+    .nav-links {
+      color: #fff;
+      text-decoration: none;
+    }
+  
+    .nav-links:hover {
+      color: #ff6b6b;
+      transition: all 0.3s ease;
+    }
+  }
+  
+  .dashboard-content {
+    padding: 20px;
+    align-content: center;
+  }
+  
+  /* Additional CSS for dropdown menu */
+  .dropdown {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    min-width: 160px;
+    z-index: 1;
+    padding: 8px 0;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .user-icon:hover .dropdown {
+    display: block;
+  }
+  
+  .user-icon {
+    position: relative;
+    width: 40px; /* Set the width of the user icon */
+    height: 40px; /* Set the height of the user icon */
+    border-radius: 50%; /* Make the user icon a circle */
+    overflow: hidden; /* Hide any overflow content */
+  }
+  
+  .user-icon img {
+    width: 100%; /* Make the image inside user icon fit its container */
+    height: 100%; /* Make the image inside user icon fit its container */
+    object-fit: cover; /* Maintain aspect ratio while covering the container */
+  }
+  
+  .user-icon i {
+    cursor: pointer;
+  }
+
+
+/* Dropdown menu styles */
+.dropdown-menu {
+    display: none;
+    position: fixed; /* Fixed position to cover the entire viewport */
+    top: 80px; /* Adjust to match navbar height */
+    left: 0; /* Align to the left side */
+    background-color: #00204a;
+    width: 300px; /* Increase the width */
+    height: 100vh; /* Fit the entire page height */
+    z-index: 1000; /* Ensure it's above other content */
+    padding: 20px; /* Add padding */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add box shadow */
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Adjust the menu to appear when isMenuOpen is true */
+  .dropdown-menu.active {
+    display: block;
+  }

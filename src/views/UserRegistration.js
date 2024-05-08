@@ -42,7 +42,7 @@ const UserRegister = () => {
       Cookies.set("token", response.data.token, { expires: 7 });
       history.push("/login", { registrationSuccess: true });
 
-    
+
     } catch (error) {
       if (error.response && error.response.status === 400) {
         setErrorMessage("User already exists");
