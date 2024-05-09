@@ -60,7 +60,7 @@ const ServiceProviderRegister = () => {
   };
 
   return (
-    <div>
+    <div className="SP-registration">
       {errorMessage && (
         <div className="modal">
           <div className="modal-content">

@@ -87,7 +87,7 @@ const Login = (props) => {
   };
 
   return (
-    <div>
+    <div className="login-page">
       <div className="login-nav">
         <div className="home-nav">
           <span className="logo">TEMPSTAY</span>

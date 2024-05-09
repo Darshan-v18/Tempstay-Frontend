@@ -49,6 +49,13 @@ const ForgotPassword = (props) => {
     } // Access userTypeValue here
   };
   return (
+    <div className="forgot-password-page">
+       <div className="login-nav">
+        <div className="home-nav">
+          <span className="logo">TEMPSTAY</span>
+          <div data-thq="thq-close-menu" className="home-close-menu"></div>
+        </div>
+      </div>
     <div className="forgot-password-container">
       <h1>Forgot Password!!</h1>
       <form onSubmit={handleSubmit}>
@@ -68,6 +75,7 @@ const ForgotPassword = (props) => {
         </button>
       </form>
     </div>
+      </div>
   );
 };
 

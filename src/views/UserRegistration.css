@@ -1,12 +1,21 @@
 /* UserRegister.css */
 
 /* Styles for login navigation */
+
+.user-registration {
+  /* Add background image */
+  background-image: url('https://images.unsplash.com/photo-1521783988139-89397d761dce?q=80&w=1625&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); /* Replace 'path_to_your_image.jpg' with the actual path to your image */
+  background-size: cover; /* Cover the entire container */
+  background-position: center; 
+  height: 100vh;
+}
+
 .home-nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-    color: #768350;
+    color: #1e3e7b;
   }
   
   .login-nav {
@@ -25,11 +34,12 @@
     margin: 0 auto;
     margin-top: 50px;
     min-height: 50vh; /* Ensure the container takes up 100% height of viewport */
-    background-color:white;
+    background-color: #ccc;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border-color: transparent;
   }
   
   /* Styles for form elements */

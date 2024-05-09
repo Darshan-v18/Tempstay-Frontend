@@ -53,7 +53,7 @@ const UserRegister = () => {
   };
 
   return (
-    <div>
+    <div className="user-registration">
       {errorMessage && (
         <div className="modal">
           <div className="modal-content">
