@@ -16,6 +16,7 @@ import ServiceProviderRegister from "./views/ServiceProviderRegister";
 import UserRegister from "./views/UserRegistration";
 import ForgotPassword from "./views/ForgotPassword";
 import UserDashboard from "./views/UserDashboard";
+import SPDashboard from "./views/SPDashboard";
 // import { UserTypeContext } from './constants/UserTypeContext';
 
 const App = () => {
@@ -32,6 +33,7 @@ const App = () => {
         <Route component={UserRegister} path="/UserRegister" />
         <Route component={ForgotPassword} path="/ForgotPassword" />
         <Route component={UserDashboard} path="/UserDashboard" />
+        <Route component={SPDashboard} path="/SPDashboard" />
         <Route component={NotFound} path="**" />
         <Redirect to="**" />
       </Switch>

@@ -6,23 +6,23 @@ const Role = (props) => {
     // Your navigation logic here
     window.location.href = path;
   };
-  
-  
+
+
 
 
   const handleServiceProviderRegister = () => {
-   nav('/ServiceProviderRegister');
+    nav('/ServiceProviderRegister');
   };
 
   const UserRegister = () => {
     nav('/UserRegister');
-   };
+  };
 
   return (
-    <div>
+    <div className='roledashboard'>
       <div className="login-nav">
         <div className="home-nav">
-          <span className="logo">TEMPSTAY</span>
+          <span className="logo" style={{ color: 'navy' }}>TEMPSTAY</span>
           <div data-thq="thq-close-menu" className="home-close-menu"></div>
         </div>
       </div>

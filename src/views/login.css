@@ -1,6 +1,16 @@
 /* login.css */
 
 /* Styles for login navigation */
+
+
+.login-page {
+  /* Add background image */
+  background-image: url('https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); /* Replace 'path_to_your_image.jpg' with the actual path to your image */
+  background-size: cover; /* Cover the entire container */
+  background-position: center; 
+  height: 100vh;
+}
+
 .home-nav {
     display: flex;
     align-items: flex-start;

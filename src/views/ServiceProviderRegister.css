@@ -1,6 +1,14 @@
 /* ServiceProviderRegister.css */
 
 /* Styles for login navigation */
+
+.SP-registration {
+  /* Add background image */
+  background-image: url('https://images.unsplash.com/photo-1521783988139-89397d761dce?q=80&w=1625&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); /* Replace 'path_to_your_image.jpg' with the actual path to your image */
+  background-size: cover; /* Cover the entire container */
+  background-position: center; 
+  height: 100vh;
+} 
 .home-nav {
   display: flex;
   align-items: center;
@@ -35,7 +43,7 @@
 
 .form-handler{
   width: 90%;
-  height: 90%;
+  height: 110%;
 
 }
 /* Styles for form elements */
