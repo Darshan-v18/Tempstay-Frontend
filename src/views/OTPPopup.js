@@ -15,7 +15,7 @@ const OTPPopup = ({ onSubmit,onClose  }) => {
 
       // Make a request to verify the OTP
       const response = await axios.post(
-        `http://localhost:9030/api/2fa`,{
+        `http://localhost:9030/api/2factorauthentication`,{
 
         },
         {
