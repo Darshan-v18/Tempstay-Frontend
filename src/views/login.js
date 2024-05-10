@@ -13,16 +13,6 @@ const Login = (props) => {
   const [userType, setUserType] = useState("user");
   const [showOTPPopup, setShowOTPPopup] = useState(false);
 
-  useEffect(() => {
-    const token = Cookies.get("token");
-    if (token) {
-      // Token exists, handle login or other operations here
-      console.log("Token exists:", token);
-    } else {
-      console.log("No token found");
-    }
-  }, []);
-
   const nav = (path) => {
     // Your navigation logic here
     window.location.href = path;
@@ -46,13 +36,19 @@ const Login = (props) => {
 
   const handleLoginSuccess = () => {
     setShowOTPPopup(true);
+    Cookies.set("userType", userType);
+    Cookies.set("email", email);
   };
+
 
   const handleOTPSubmit = async (otp) => {
     // Handle OTP submission here
     setShowOTPPopup(false);
-    // nav("/UserPanel");
-    // Proceed with your logic after OTP submission
+    if (userType === "user") {
+      nav("/UserDashboard");
+    } else if (userType === "serviceprovider") {
+      nav("/ServiceProviderDashboard");
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -84,6 +80,11 @@ const Login = (props) => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+
+  const handleCloseOTPPopup = () => {
+    setShowOTPPopup(false);
   };
 
   return (
@@ -156,7 +157,7 @@ const Login = (props) => {
             Login
           </button>
         </form>
-        <div>{showOTPPopup && <OTPPopup onSubmit={handleOTPSubmit} />}</div>
+        <div>{showOTPPopup && <OTPPopup onSubmit={handleOTPSubmit} onClose={handleCloseOTPPopup} />}</div>
       </div>
     </div>
   );

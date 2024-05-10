@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const OTPPopup = ({ onSubmit,onClose  }) => {
+const OTPforgot = ({ onSubmit,onClose  }) => {
   const [otp, setOTP] = useState(""); // State to store the OTP entered by the user
 
   const handleChange = (event) => {
@@ -15,14 +15,13 @@ const OTPPopup = ({ onSubmit,onClose  }) => {
 
       // Make a request to verify the OTP
       const response = await axios.post(
-        `http://localhost:9030/api/2fa`,{
+        `http://localhost:9030/api/verifyOtpforforgotpassword`,{
 
         },
         {
           headers: {
             "Content-Type": "application/json",
-            role: Cookies.get("userType"),
-            otpforTwoFAFromUser: otp,
+            otp: otp,
             email: Cookies.get("email"), // Include email in the headers
           }
         }
@@ -74,4 +73,4 @@ const OTPPopup = ({ onSubmit,onClose  }) => {
   );
 };
 
-export default OTPPopup;
+export default OTPforgot;
