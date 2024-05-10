@@ -9,23 +9,22 @@ import OTPforgot from "./OTPforgot";
 
 const ForgotPassword = (props) => {
   const [email, setEmail] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  const [password, setPassword] = useState("");
   const [userType, setUserType] = useState("");
   const [Showotpforgot, setShowOTPPopup] = useState(false);
 
-  
-  const nav = (path) => {
-    // Your navigation logic here
-    window.location.href = path;
-  };
-  
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
 
 
-  const handleLoginSuccess = () => {
-    setShowOTPPopup(true);
+  const nav = (path) => {
+    // Your navigation logic here
+    window.location.href = path;
+  };
+
+  const handleResetSuccess = () => {
+    nav("/login");
   };
   
   const handleSubmit = async (event) => {
@@ -33,22 +32,23 @@ const ForgotPassword = (props) => {
 
     try {
 
-      console.log(Cookies.get("userType"));
-      // Make POST request to backend API using Axios
+      console.log(email, userType, password);
+      // Make POST request to backend API using Axios\
       const response = await axios.post(
-        "http://localhost:9030/api/forgotpassword",{
+        "http://localhost:9030/api/resetpassword",{
         },
         {
           headers: {
             "Content-Type": "application/json",
             email: email,
-            role: Cookies.get("userType"),
+            role: userType,
+            passwordFromUser: password,
           },
         }
       );
 
 
-       handleLoginSuccess();
+       handleResetSuccess();
       // Check if request was successful
       console.log("Response:", response.data); // Log the response data
       setSuccessMessage("OTP sent to your email.");
@@ -61,17 +61,14 @@ const ForgotPassword = (props) => {
     }
   };
 
-  const handleOTPSubmit = async (otp) => {
-    // Handle OTP submission here
-    setShowOTPPopup(false);
-    nav("/ResetPassword");
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
   };
 
-  const handleCloseOTPPopup = () => {
-    setShowOTPPopup(false);
+  const handleUserTypeChange = (event) => {
+    setUserType(event.target.value);
   };
-
-
+  
   return (
     <div className="forgot-password-page">
       <div className="login-nav">
@@ -81,7 +78,7 @@ const ForgotPassword = (props) => {
         </div>
       </div>
       <div className="forgot-password-container">
-        <h1>Forgot Password!!</h1>
+        <h1>Reset Password</h1>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="email">Email address:</label>
@@ -94,11 +91,35 @@ const ForgotPassword = (props) => {
               required
             />
           </div>
+          <div className="form-group">
+            <label htmlFor="email">New Password:</label>
+            <input
+              type="password"
+              id="exampleInputPassword1"
+              className="form-control"
+              value={password}
+              onChange={handlePasswordChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="userType">User Type:</label>
+            <select
+              id="userType"
+              className="form-control"
+              value={userType}
+              onChange={handleUserTypeChange}
+              required
+            >
+              <option value="">Select User Type</option>
+              <option value="user">User</option>
+              <option value="serviceprovider">Service Provider</option>
+            </select>
+          </div>
           <button type="submit" className="btn btn-primary">
             Submit
           </button>
         </form>
-        <div>{Showotpforgot && <OTPforgot onSubmit={handleOTPSubmit} onClose={handleCloseOTPPopup}  />}</div>
       </div>
     </div>
   );

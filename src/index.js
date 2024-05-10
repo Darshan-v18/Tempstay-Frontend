@@ -17,6 +17,7 @@ import UserRegister from "./views/UserRegistration";
 import ForgotPassword from "./views/ForgotPassword";
 import UserDashboard from "./views/UserDashboard";
 import SPDashboard from "./views/SPDashboard";
+import ResetPassword from "./views/RestPassword";
 // import { UserTypeContext } from './constants/UserTypeContext';
 
 const App = () => {
@@ -34,6 +35,7 @@ const App = () => {
         <Route component={ForgotPassword} path="/ForgotPassword" />
         <Route component={UserDashboard} path="/UserDashboard" />
         <Route component={SPDashboard} path="/SPDashboard" />
+        <Route component={ResetPassword} path="/ResetPassword" />
         <Route component={NotFound} path="**" />
         <Redirect to="**" />
       </Switch>
@@ -42,3 +44,4 @@ const App = () => {
 };
 
 ReactDOM.render(<App />, document.getElementById("app"));
+// export default App;
