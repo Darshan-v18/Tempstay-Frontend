@@ -1,84 +1,89 @@
-import React, { useState } from 'react';
-import "./UserDashboard.css"
+import React, { useState, useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import "./SPDashboard.css";
 import userIcon from '../Images/Icons/usericon.jpg';
-import { FaBars, FaTimes, FaSearch } from 'react-icons/fa';
-import { Link } from 'react-router-dom'; // If you're using React Router
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import Avatar from '@mui/material/Avatar';
+import MenuItem from '@mui/material/MenuItem';
+import Tooltip from '@mui/material/Tooltip';
 
-// UserDashboard component
 const SPDashboard = () => {
-    const [isMenuOpen, setMenuOpen] = useState(false);
+    const [anchorElUser, setAnchorElUser] = useState(null);
+    const settings = ['Profile', 'Logout'];
+    const history = useHistory(); // useHistory hook for navigation in React Router v5
 
-    const toggleMenu = () => {
-        setMenuOpen(!isMenuOpen); // Toggle the state
+    const handleLogout = () => {
+        localStorage.removeItem('userToken'); // Assuming you store a token named 'userToken'
+        history.push('/login'); // Redirect to login page using history.push
     };
 
+    const handleOpenUserMenu = (event) => {
+        setAnchorElUser(event.currentTarget);
+    };
+
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    };
+
+    const handleMenuItemClick = (setting) => {
+        handleCloseUserMenu();
+        if (setting === 'Logout') {
+            handleLogout();
+        }
+        // Here you can handle other settings like 'Profile'
+    };
 
     return (
-        <div>
-            {/* Navbar */}
+        <div className='bagr'>
             <nav className="navbar">
                 <div className="navbar-container">
-                    <Link to="/" className="navbar-logo">
-                        TEMPSTAY
-                    </Link>
-                    {/* Additional Options */}
+                    <Link to="/" className="navbar-logo">TEMPSTAY</Link>
                     <div className="nav-options">
-                        <Link to="/updatebooking" className="nav-link" onClick={toggleMenu}>
-                            Add Hotel
-                        </Link>
-                        <Link to="/deletebooking" className="nav-link" onClick={toggleMenu}>
-                            View Bookings
-                        </Link>
-                        <Link to="/viewbooking" className="nav-link" onClick={toggleMenu}>
-                            Update Hotel
-                        </Link>
+                        <Link to="/addhotel" className="nav-link" onClick={handleCloseUserMenu}>Add Hotel</Link>
+                        <Link to="/viewbookings" className="nav-link" onClick={handleCloseUserMenu}>View Bookings</Link>
+                        <Link to="/updatehotel" className="nav-link" onClick={handleCloseUserMenu}>Update Hotel</Link>
                     </div>
-                    {/* Search bar */}
-                    <div className="search-bar">
-                        <input type="text" placeholder="Search Hotels" />
-                        <button><FaSearch /></button>
-                    </div>
-                    {/* Spacer element */}
-                    <div className="spacer" />
-                    <div className="menu-icon" onClick={toggleMenu}>
-                        {isMenuOpen ? <FaTimes /> : <FaBars />}
-                    </div>
+                    
+                    <Box sx={{ flexGrow: 0, ml: 120 }}>
+                        <Tooltip title="Service Provider Settings">
+                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                <Avatar src={userIcon} alt="User Icon" />
+                            </IconButton>
+                        </Tooltip>
+                        <Menu
+                            sx={{ mt: '45px' }}
+                            id="menu-appbar"
+                            anchorEl={anchorElUser}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            open={Boolean(anchorElUser)}
+                            onClose={handleCloseUserMenu}
+                        >
+                            {settings.map((setting) => (
+                                <MenuItem key={setting} onClick={() => handleMenuItemClick(setting)}>
+                                    <Typography textAlign="center">{setting}</Typography>
+                                </MenuItem>
+                            ))}
+                        </Menu>
+                    </Box>
                 </div>
-
-                {/* Navigation links */}
-                <ul className={isMenuOpen ? 'nav-menu active' : 'nav-menu'}>
-                    <li className="nav-item">
-                        <Link to="/profile" className="nav-link" onClick={toggleMenu}>
-                            Logout
-                        </Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link to="/settings" className="nav-link" onClick={toggleMenu}>
-                            Settings
-                        </Link>
-                    </li>
-                    {/* User icon with dropdown for logout */}
-                    <li className="nav-item user-icon">
-                        <img src={userIcon} alt="User Icon" onClick={toggleMenu} />
-                        <ul className="dropdown">
-                            <li className="nav-item">
-                                <Link to="/logout" className="nav-link" onClick={toggleMenu}>
-                                    Logout
-                                </Link>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
             </nav>
 
-            {/* Page content */}
             <div className="dashboard-content">
-                {/* Your dashboard content goes here */}
-
+                {/* Dashboard content goes here */}
             </div>
         </div>
     );
 };
 
-// Export the component
 export default SPDashboard;

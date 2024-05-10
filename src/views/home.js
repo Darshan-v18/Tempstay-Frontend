@@ -61,7 +61,7 @@ const Home = (props) => {
           <div data-thq="thq-navbar-nav" className="home-desktop-menu">
             <nav className="home-links"></nav>
             <div className="home-buttons">
-              <button className="home-login buttonFlat" onClick={handleLogin}>Login</button>
+              <button className="buttonFilled" onClick={handleLogin}>Login</button>
               <button className="buttonFilled" onClick={handleRegister}>Register</button>
             </div>
           </div>
