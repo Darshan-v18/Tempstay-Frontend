@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import "./SPDashboard.css";
 import userIcon from '../Images/Icons/usericon.jpg';
@@ -32,8 +32,9 @@ const SPDashboard = () => {
         handleCloseUserMenu();
         if (setting === 'Logout') {
             handleLogout();
+        } else if (setting === 'Profile') {
+            history.push('/userprofile'); // Redirect to user profile page
         }
-        // Here you can handle other settings like 'Profile'
     };
 
     return (
@@ -43,16 +44,16 @@ const SPDashboard = () => {
                     <Link to="/" className="navbar-logo">TEMPSTAY</Link>
                     <div className="nav-options">
                         <Link to="/addhotel" className="nav-link" onClick={handleCloseUserMenu}>Add Hotel</Link>
-                        <Link to="/viewbookings" className="nav-link" onClick={handleCloseUserMenu}>View Bookings</Link>
+                        <Link to="/viewBookings" className="nav-link" onClick={handleCloseUserMenu}>View Bookings</Link>
                         <Link to="/updatehotel" className="nav-link" onClick={handleCloseUserMenu}>Update Hotel</Link>
                     </div>
                     
                     <Box sx={{ flexGrow: 0, ml: 120 }}>
-                        <Tooltip title="Service Provider Settings">
+                        <Tooltip title="User Settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                 <Avatar src={userIcon} alt="User Icon" />
                             </IconButton>
-                        </Tooltip>
+                        </Tooltip >
                         <Menu
                             sx={{ mt: '45px' }}
                             id="menu-appbar"
