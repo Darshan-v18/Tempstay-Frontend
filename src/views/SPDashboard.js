@@ -44,7 +44,7 @@ const SPDashboard = () => {
                     <Link to="/" className="navbar-logo">TEMPSTAY</Link>
                     <div className="nav-options">
                         <Link to="/addhotel" className="nav-link" onClick={handleCloseUserMenu}>Add Hotel</Link>
-                        <Link to="/viewBookings" className="nav-link" onClick={handleCloseUserMenu}>View Bookings</Link>
+                        <Link to="/viewSPHotel" className="nav-link" onClick={handleCloseUserMenu}>View Bookings</Link>
                         <Link to="/updatehotel" className="nav-link" onClick={handleCloseUserMenu}>Update Hotel</Link>
                     </div>
                     
