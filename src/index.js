@@ -22,7 +22,7 @@ import UserProfile from "./views/UserProfile";
 import ResetPassword from "./views/RestPassword";
 import BookHotel from "./views/BookHotel"
 import BillingPage from "./views/BillingPage";
-import ViewBookings from "./views/ViewBooking;
+import ViewHotels from "./views/viewBookings";
 import UpdateHotel from "./views/updateHotel";
 // import { UserTypeContext } from './constants/UserTypeContext';
 
@@ -44,11 +44,11 @@ const App = () => {
         <Route component={addHotel} path="/addhotel" />
         <Route component={UpdateHotel} path="/updateHotel" />
         <Route component={UserProfile} path="/userProfile" />
-        <Route component={viewBookings} path="/viewBookings" />
+        {/* <Route component={viewBookings} path="/viewBookings" /> */}
         <Route component={ResetPassword} path="/ResetPassword" />
         <Route component={BookHotel} path="/bookhotel" />
         <Route component={BillingPage} path="/billing" />
-        <Route component={ViewBookings} path="/viewbookings" />
+        <Route component={ViewHotels} path="/viewbookings" />
         <Route component={NotFound} path="**" />
         <Redirect to="**" />
       </Switch>
