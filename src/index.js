@@ -17,10 +17,13 @@ import UserRegister from "./views/UserRegistration";
 import ForgotPassword from "./views/ForgotPassword";
 import UserDashboard from "./views/UserDashboard";
 import SPDashboard from "./views/SPDashboard";
+import addHotel from "./views/addHotel";
+import UserProfile from "./views/UserProfile";
 import ResetPassword from "./views/RestPassword";
 import BookHotel from "./views/BookHotel"
 import BillingPage from "./views/BillingPage";
-import ViewBookings from "./views/ViewBooking";
+import ViewBookings from "./views/ViewBooking;
+import UpdateHotel from "./views/updateHotel";
 // import { UserTypeContext } from './constants/UserTypeContext';
 
 const App = () => {
@@ -38,6 +41,10 @@ const App = () => {
         <Route component={ForgotPassword} path="/ForgotPassword" />
         <Route component={UserDashboard} path="/UserDashboard" />
         <Route component={SPDashboard} path="/SPDashboard" />
+        <Route component={addHotel} path="/addhotel" />
+        <Route component={UpdateHotel} path="/updateHotel" />
+        <Route component={UserProfile} path="/userProfile" />
+        <Route component={viewBookings} path="/viewBookings" />
         <Route component={ResetPassword} path="/ResetPassword" />
         <Route component={BookHotel} path="/bookhotel" />
         <Route component={BillingPage} path="/billing" />

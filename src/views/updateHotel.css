@@ -1,0 +1,70 @@
+/* AddHotel form container */
+.add-hotel-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 40px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+
+
+    
+  }
+  
+  /* General form styling */
+  .hotel-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+  }
+  
+  .hotel-form label {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .hotel-form input[type="number"],
+  .hotel-form select {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box; /* Makes sure padding doesn't affect width */
+  }
+  
+  .hotel-form button {
+    padding: 10px 20px;
+    background-color: #005792;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .hotel-form button:hover {
+    background-color: hsl(215, 100%, 25%);
+  }
+  
+  /* Link styling, assuming you use the same style across your application */
+  .hotel-form a {
+    text-decoration: none;
+    color: #0056b3;
+    font-size: 16px;
+  }
+  
+  .hotel-form a:hover {
+    text-decoration: underline;
+  }
+  .bagr {
+    /* Add background image */
+    background-image: url('https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); /* Replace 'path_to_your_image.jpg' with the actual path to your image */
+    background-size: cover; /* Cover the entire container */
+    background-position: center; 
+    height: 100vh;
+  }
+  
