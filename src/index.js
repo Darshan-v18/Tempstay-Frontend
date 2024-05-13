@@ -22,8 +22,9 @@ import UserProfile from "./views/UserProfile";
 import ResetPassword from "./views/RestPassword";
 import BookHotel from "./views/BookHotel"
 import BillingPage from "./views/BillingPage";
-import ViewBookings from "./views/ViewBooking";
+import ViewHotels from "./views/viewSpHotels";
 import UpdateHotel from "./views/updateHotel";
+import ViewBookings from "./views/ViewBooking";
 // import { UserTypeContext } from './constants/UserTypeContext';
 
 const App = () => {
@@ -44,11 +45,11 @@ const App = () => {
         <Route component={addHotel} path="/addhotel" />
         <Route component={UpdateHotel} path="/updateHotel" />
         <Route component={UserProfile} path="/userProfile" />
-        <Route component={ViewBookings} path="/ViewBookings" />
+        <Route component={ViewBookings} path="/viewbookings" />
         <Route component={ResetPassword} path="/ResetPassword" />
         <Route component={BookHotel} path="/bookhotel" />
         <Route component={BillingPage} path="/billing" />
-        <Route component={ViewBookings} path="/viewbookings" />
+        <Route component={ViewHotels} path="/viewSpHotel" />
         <Route component={NotFound} path="**" />
         <Redirect to="**" />
       </Switch>
