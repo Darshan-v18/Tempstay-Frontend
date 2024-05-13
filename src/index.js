@@ -4,7 +4,7 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
-  Redirect,
+  Redirect
 } from "react-router-dom";
 
 import "./style.css";
@@ -20,8 +20,10 @@ import SPDashboard from "./views/SPDashboard";
 import addHotel from "./views/addHotel";
 import UserProfile from "./views/UserProfile";
 import ResetPassword from "./views/RestPassword";
+import BookHotel from "./views/BookHotel"
+import BillingPage from "./views/BillingPage";
+import ViewBookings from "./views/ViewBooking;
 import UpdateHotel from "./views/updateHotel";
-import viewBookings from "./views/viewBookings";
 // import { UserTypeContext } from './constants/UserTypeContext';
 
 const App = () => {
@@ -44,6 +46,9 @@ const App = () => {
         <Route component={UserProfile} path="/userProfile" />
         <Route component={viewBookings} path="/viewBookings" />
         <Route component={ResetPassword} path="/ResetPassword" />
+        <Route component={BookHotel} path="/bookhotel" />
+        <Route component={BillingPage} path="/billing" />
+        <Route component={ViewBookings} path="/viewbookings" />
         <Route component={NotFound} path="**" />
         <Redirect to="**" />
       </Switch>
