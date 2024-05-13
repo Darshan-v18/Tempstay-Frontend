@@ -7,6 +7,8 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 
 const roomTypes = [
@@ -19,16 +21,61 @@ function BookHotel() {
   const history = useHistory();
   const location = useLocation();
   const [selectedRoomType, setSelectedRoomType] = useState('');
-  const [checkInDate, setCheckInDate] = useState('');
-  const [checkOutDate, setCheckOutDate] = useState('');
+  const [checkinDate, setCheckInDate] = useState('');
+  const [checkoutDate, setCheckOutDate] = useState('');
   const [numberOfRooms, setNumberOfRooms] = useState('');
 
-  const handleBookHotel = () => {
-    // Implement logic to book hotel
-    // Redirect to success page or handle booking confirmation
-    history.push({
-      pathname: '/billing'
-    });
+
+  console.log(Cookies.get("ownerID"));
+  const handleBookHotel = async () => {
+    try {
+
+
+
+      // Make an HTTP request to fetch the room ID based on the selected room type
+      const response1 = await axios.get(`http://localhost:9030/api/getdetails`, {
+        headers: {
+          ownerId: Cookies.get('ownerID'),
+          roomType: selectedRoomType,
+        },
+      });
+
+
+      // Extract the room ID from the response
+      const roomId = response1.data.roomId;
+
+
+      const availabilityResponse = await axios.post('http://localhost:9030/api/checkroom', {
+        hotelownId: Cookies.get('ownerID'),
+        roomId,
+      });
+
+      if (!isRoomAvailable) {
+        // Handle case when room is not available
+        console.log('The selected room is not available for the specified dates.');
+        return;
+      }
+      const response = await axios.post('http://localhost:9030/api/bookroom', {
+        hotelownId: Cookies.get('ownerID'),
+        roomId,
+        checkinDate,
+        checkoutDate,
+        numberOfRooms,
+      }, {
+        headers: {
+          token: Cookies.get('token'),
+          role: Cookies.get('userType'),
+        },
+      });
+
+      // Handle the booking response (e.g., redirect to success page)
+      console.log('Booking response:', response.data);
+      history.push({
+        pathname: '/billing'
+      });
+    } catch (error) {
+      console.error('Error fetching room ID:', error);
+    }
   };
 
 
@@ -73,7 +120,7 @@ function BookHotel() {
           fullWidth
           label="Check-In Date"
           type="date"
-          value={checkInDate}
+          value={checkinDate}
           onChange={(e) => setCheckInDate(e.target.value)}
           InputLabelProps={{
             shrink: true,
@@ -85,7 +132,7 @@ function BookHotel() {
           fullWidth
           label="Check-Out Date"
           type="date"
-          value={checkOutDate}
+          value={checkoutDate}
           onChange={(e) => setCheckOutDate(e.target.value)}
           InputLabelProps={{
             shrink: true,

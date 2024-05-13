@@ -1,51 +1,85 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom'; // ensure useHistory is properly imported
-import "./addHotel.css"; // Assuming this CSS file exists and is correctly configured
+import { Link, useHistory } from 'react-router-dom';
+import "./addHotel.css";
+import axios from 'axios';
+import Cookies from 'js-cookie'; // Import Axios library for making HTTP requests
 
 const AddHotel = () => {
   const [roomType, setRoomType] = useState('');
   const [numRooms, setNumRooms] = useState('');
   const [price, setPrice] = useState('');
-  const history = useHistory(); // For React Router v5
+  const history = useHistory();
 
-  // Handle form submission
-  const handleSubmit = (event) => {
-    event.preventDefault(); // Prevent the default form submit action
-    // Here you can add logic to send data to the server or handle it in some way
-    console.log({ roomType, numRooms, price });
+
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      // Fetch tokens from cookies
+
+      console.log("user", Cookies.get("userType"))
+      console.log("token", Cookies.get("token"))
+
+      const data = [
+        {
+          room: roomType,
+          price: price,
+          numberOfRoom: numRooms
+        }
+      ];
+
+      console.log(data);
+      // Make API request
+      const response = await axios.post('http://localhost:9030/api/uploadhotels',
+        data
+        , {
+          headers: {
+            "Content-Type": "application/json",
+            token: Cookies.get("token"),
+            role: Cookies.get("userType")
+          }
+        });
+
+      console.log(response.data); // Log response from API
+      history.push('/SPDashboard'); // Redirect after successful submission
+    } catch (error) {
+      console.error('Error:', error); // Log any errors
+    }
   };
 
-  // Handle cancel action
   const handleCancel = () => {
-    history.push('/SPDashboard'); // Ensure this is the correct path
+    history.push('/SPDashboard');
   };
 
   return (
     <div className='bagr'>
-    <div className="add-hotel-container">
-      <form onSubmit={handleSubmit} className="hotel-form">
-        <label>
-          Type of Room:
-          <select value={roomType} onChange={e => setRoomType(e.target.value)}>
-            <option value="single">Single</option>
-            <option value="double">Double</option>
-            <option value="triple">Triple</option>
-          </select>
-        </label>
-        <label>
-          Number of Rooms:
-          <input type="number" value={numRooms} onChange={e => setNumRooms(e.target.value)} />
-        </label>
-        <label>
-          Price:
-          <input type="number" value={price} onChange={e => setPrice(e.target.value)} />
-        </label>
-        <button type="submit">Submit</button>
-        <button type="button" onClick={handleCancel} className="cancel-button">
-          Cancel
-        </button>
-      </form>
-    </div>
+      <div className="add-hotel-container">
+        <form onSubmit={handleSubmit} className="hotel-form">
+          <label>
+            Type of Room:
+            <select value={roomType} onChange={e => setRoomType(e.target.value)}>
+              <option value="">Select room type</option>
+              <option value="single">Single</option>
+              <option value="double">Double</option>
+              <option value="triple">Triple</option>
+            </select>
+          </label>
+
+          <label>
+            Number of Rooms:
+            <input type="number" value={numRooms} onChange={e => setNumRooms(e.target.value)} />
+          </label>
+          <label>
+            Price:
+            <input type="number" value={price} onChange={e => setPrice(e.target.value)} />
+          </label>
+          <button type="submit">Submit</button>
+          <button type="button" onClick={handleCancel} className="cancel-button">
+            Cancel
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

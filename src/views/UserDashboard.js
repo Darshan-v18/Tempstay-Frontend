@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -17,6 +17,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import ViewBookings from './ViewBooking';
 import BookHotel from './BookHotel';
 import Cookies from 'js-cookie';
+import axios from 'axios';
 
 const pages = ['View Booking'];
 const settings = ['Profile', 'Logout'];
@@ -24,8 +25,35 @@ const settings = ['Profile', 'Logout'];
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [hotels, setHotels] = useState([]);
   const history = useHistory();
 
+  console.log(Cookies.get("token"));
+  console.log(Cookies.get("userType"));
+
+  useEffect(() => {
+    // Fetch hotel data when component mounts
+    fetchHotels();
+  }, []); // Empty dependency array ensures the effect runs only once
+
+
+
+  const fetchHotels = async () => {
+    try {
+      // Make API request to fetch hotel data
+      const response = await axios.get('http://localhost:9030/api/getallhotels', {
+        headers: {
+          token: Cookies.get('token'),
+          role: Cookies.get('userType'),
+        },
+      });
+      console.log(response.data);
+      Cookies.set("ownerID", response.data.id, { expires: 7 })
+      setHotels(response.data); // Store fetched data in state
+    } catch (error) {
+      console.error('Error fetching hotel data:', error);
+    }
+  };
   const nav = (path) => {
     // Your navigation logic here
     window.location.href = path;
@@ -55,35 +83,49 @@ function ResponsiveAppBar() {
   const handleViewBookings = () => {
     nav('/viewbookings'); // Redirect to the ViewBookings page
   };
-  
-  // Sample hotel data
-  const hotels = [
-    {
-      id: 1,
-      name: 'Luxury Hotel',
-      roomType: 'Deluxe',
-      numberOfRooms: 5,
-      price: 200,
-      image: 'https://images.pexels.com/photos/1134176/pexels-photo-1134176.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      backgroundColor: '#f0f0f0',
-    },
-    {
-      id: 2,
-      name: 'Cozy Inn',
-      roomType: 'Standard',
-      numberOfRooms: 10,
-      price: 100,
-      image: 'https://images.pexels.com/photos/53464/sheraton-palace-hotel-lobby-architecture-san-francisco-53464.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-      backgroundColor: '#e0e0e0',
-    },
-    // Add more hotel data as needed
-  ];
 
-  const handleBookHotel = () => {
+  // Sample hotel data
+  // const hotels = [
+  //   {
+  //     id: 1,
+  //     name: 'Luxury Hotel',
+  //     roomType: 'Deluxe',
+  //     numberOfRooms: 5,
+  //     price: 200,
+  //     image: 'https://images.pexels.com/photos/1134176/pexels-photo-1134176.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+  //     backgroundColor: '#f0f0f0',
+  //   },
+  //   {
+  //     id: 2,
+  //     name: 'Cozy Inn',
+  //     roomType: 'Standard',
+  //     numberOfRooms: 10,
+  //     price: 100,
+  //     image: 'https://images.pexels.com/photos/53464/sheraton-palace-hotel-lobby-architecture-san-francisco-53464.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+  //     backgroundColor: '#e0e0e0',
+  //   },
+  //   // Add more hotel data as needed
+  // ];
+
+  const handleBookHotel = async (hotelId) => {
+    try {
+      // Make API request to fetch hotel data
+      const response = await axios.get('http://localhost:9030/api/getallhotels', {
+        headers: {
+          token: Cookies.get('token'),
+          role: Cookies.get('userType'),
+        },
+      });
+      console.log(response.data.id);
+      Cookies.set("ownerID", hotelId, { expires: 7 });
+      setHotels(response.data); // Store fetched data in state
+    } catch (error) {
+      console.error('Error fetching hotel data:', error);
+    }
     nav('/bookhotel');
   };
 
- 
+
   return (
     <Box
       sx={{
@@ -265,18 +307,18 @@ function ResponsiveAppBar() {
                   />
                   <Box>
                     <Typography variant="h6" component="h3">
-                      {hotel.name}
+                      {hotel.hotelName}
                     </Typography>
                     <Typography variant="body1" sx={{ mr: 4 }}>
-                      Room Type: {hotel.roomType}
+                      Hotel Address: {hotel.address}
                     </Typography>
                     <Typography variant="body1" sx={{ mr: 4 }}>
-                      Number of Rooms: {hotel.numberOfRooms}
+                      Rating: {hotel.rating}
                     </Typography>
-                    <Typography variant="body1">Price: ${hotel.price}</Typography>
+                    <Typography variant="body1">phoneNumber: {hotel.phoneNumber}</Typography>
                   </Box>
                 </Box>
-                <Button variant="contained" onClick={() => handleBookHotel()}>
+                <Button variant="contained" onClick={() => handleBookHotel(hotel.id)}>
                   Book Hotel
                 </Button>
               </Box>

@@ -33,7 +33,7 @@
     max-width: 500px;
     margin: 0 auto;
     margin-top: 50px;
-    min-height: 50vh; /* Ensure the container takes up 100% height of viewport */
+    min-height: 70vh; /* Ensure the container takes up 100% height of viewport */
     background-color: #ccc;
     display: flex;
     flex-direction: column;

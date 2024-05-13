@@ -25,6 +25,7 @@ import BillingPage from "./views/BillingPage";
 import ViewHotels from "./views/viewSpHotels";
 import UpdateHotel from "./views/updateHotel";
 import ViewBookings from "./views/ViewBooking";
+import AddImages from "./views/AddImages";
 // import { UserTypeContext } from './constants/UserTypeContext';
 
 const App = () => {
@@ -50,6 +51,7 @@ const App = () => {
         <Route component={BookHotel} path="/bookhotel" />
         <Route component={BillingPage} path="/billing" />
         <Route component={ViewHotels} path="/viewSpHotel" />
+        <Route component={AddImages} path="/addImages" />
         <Route component={NotFound} path="**" />
         <Redirect to="**" />
       </Switch>

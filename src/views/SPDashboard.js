@@ -9,15 +9,20 @@ import Menu from '@mui/material/Menu';
 import Avatar from '@mui/material/Avatar';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
+import Cookies from "js-cookie";
 
 const SPDashboard = () => {
     const [anchorElUser, setAnchorElUser] = useState(null);
     const settings = ['Profile', 'Logout'];
-    const history = useHistory(); // useHistory hook for navigation in React Router v5
+    const history = useHistory();
+
+    console.log(Cookies.get("userType"))
+    console.log(Cookies.get("token"))
+    console.log(Cookies.get("email"))
 
     const handleLogout = () => {
-        localStorage.removeItem('userToken'); // Assuming you store a token named 'userToken'
-        history.push('/login'); // Redirect to login page using history.push
+        localStorage.removeItem('userToken');
+        history.push('/login');
     };
 
     const handleOpenUserMenu = (event) => {
@@ -33,7 +38,7 @@ const SPDashboard = () => {
         if (setting === 'Logout') {
             handleLogout();
         } else if (setting === 'Profile') {
-            history.push('/userprofile'); // Redirect to user profile page
+            history.push('/userprofile');
         }
     };
 
@@ -46,9 +51,10 @@ const SPDashboard = () => {
                         <Link to="/addhotel" className="nav-link" onClick={handleCloseUserMenu}>Add Hotel</Link>
                         <Link to="/viewSPHotel" className="nav-link" onClick={handleCloseUserMenu}>View Bookings</Link>
                         <Link to="/updatehotel" className="nav-link" onClick={handleCloseUserMenu}>Update Hotel</Link>
+                        <Link to="/addimages" className="nav-link" onClick={handleCloseUserMenu}>Add Images</Link> {/* New Link */}
                     </div>
-                    
-                    <Box sx={{ flexGrow: 0, ml: 120 }}>
+
+                    <Box sx={{ flexGrow: 0, ml: 100 }}>
                         <Tooltip title="User Settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                 <Avatar src={userIcon} alt="User Icon" />
