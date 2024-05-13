@@ -22,7 +22,8 @@ import UserProfile from "./views/UserProfile";
 import ResetPassword from "./views/RestPassword";
 import BookHotel from "./views/BookHotel"
 import BillingPage from "./views/BillingPage";
-import ViewHotels from "./views/viewBookings";
+import ViewBookings from "./views/ViewBooking";
+import ViewHotels from "./views/ViewBookings";
 import UpdateHotel from "./views/updateHotel";
 // import { UserTypeContext } from './constants/UserTypeContext';
 
@@ -44,6 +45,8 @@ const App = () => {
         <Route component={addHotel} path="/addhotel" />
         <Route component={UpdateHotel} path="/updateHotel" />
         <Route component={UserProfile} path="/userProfile" />
+        <Route component={ViewBookings} path="/ViewBookings" />
+
         {/* <Route component={viewBookings} path="/viewBookings" /> */}
         <Route component={ResetPassword} path="/ResetPassword" />
         <Route component={BookHotel} path="/bookhotel" />
