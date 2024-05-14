@@ -38,6 +38,8 @@ const Login = (props) => {
     setShowOTPPopup(true);
     Cookies.set("userType", userType);
     Cookies.set("email", email);
+    
+
   };
 
 
@@ -47,7 +49,7 @@ const Login = (props) => {
     if (userType === "user") {
       nav("/UserDashboard");
     } else if (userType === "serviceprovider") {
-      nav("/ServiceProviderDashboard");
+      nav("/SPDashboard");
     }
   };
 

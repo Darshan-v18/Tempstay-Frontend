@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { Cookie } from "@mui/icons-material";
 
 const OTPPopup = ({ onSubmit,onClose  }) => {
   const [otp, setOTP] = useState(""); // State to store the OTP entered by the user
@@ -25,9 +26,9 @@ const OTPPopup = ({ onSubmit,onClose  }) => {
             otpforTwoFAFromUser: otp,
             email: Cookies.get("email"), // Include email in the headers
           }
-        }
+        } 
       );
-      console.log("Response:", response);
+      Cookies.set("token", response.data.token, { expires: 7 });
       // If OTP verification is successful, call the onSubmit function passed from the parent component
       onSubmit(otp);
     } catch (error) {
