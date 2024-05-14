@@ -9,6 +9,11 @@ import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import { Cookie } from '@mui/icons-material';
 
 
 const roomTypes = [
@@ -24,37 +29,44 @@ function BookHotel() {
   const [checkinDate, setCheckInDate] = useState('');
   const [checkoutDate, setCheckOutDate] = useState('');
   const [numberOfRooms, setNumberOfRooms] = useState('');
+  const [openDialog, setOpenDialog] = useState(false);
+  const [openSuccessDialog, setOpenSuccessDialog] = useState(false);
+
 
 
   console.log(Cookies.get("ownerID"));
   const handleBookHotel = async () => {
     try {
 
-
+      console.log(selectedRoomType);
 
       // Make an HTTP request to fetch the room ID based on the selected room type
-      const response1 = await axios.get(`http://localhost:9030/api/getdetails`, {
+      const response1 = await axios.get(`http://localhost:9030/api/getroomidbyhotelownidandroomtype`, {
         headers: {
-          ownerId: Cookies.get('ownerID'),
+          hotelownId: Cookies.get('ownerID'),
           roomType: selectedRoomType,
         },
       });
 
 
       // Extract the room ID from the response
-      const roomId = response1.data.roomId;
-
+      const roomId = response1.data;
+      console.log(roomId);
 
       const availabilityResponse = await axios.post('http://localhost:9030/api/checkroom', {
         hotelownId: Cookies.get('ownerID'),
         roomId,
       });
 
-      if (!isRoomAvailable) {
+      const isRoomAvailable = availabilityResponse.data.message;
+      console.log(isRoomAvailable);
+      if (isRoomAvailable=='No Rooms Available') {
         // Handle case when room is not available
         console.log('The selected room is not available for the specified dates.');
+        setOpenDialog(true);
         return;
       }
+
       const response = await axios.post('http://localhost:9030/api/bookroom', {
         hotelownId: Cookies.get('ownerID'),
         roomId,
@@ -68,13 +80,10 @@ function BookHotel() {
         },
       });
 
-      // Handle the booking response (e.g., redirect to success page)
-      console.log('Booking response:', response.data);
-      history.push({
-        pathname: '/billing'
-      });
+      setOpenSuccessDialog(true);
+
     } catch (error) {
-      console.error('Error fetching room ID:', error);
+      console.error('Error handling book hotel:', error);
     }
   };
 
@@ -153,6 +162,33 @@ function BookHotel() {
           Book Hotel
         </Button>
       </Container>
+      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+  <DialogTitle>No Room Available</DialogTitle>
+  <DialogContent>
+    <Typography variant="body1">
+      Unfortunately, there are no rooms available for the selected dates.
+    </Typography>
+  </DialogContent>
+  <DialogActions>
+    <Button onClick={() => setOpenDialog(false)}>Close</Button>
+  </DialogActions>
+</Dialog>
+
+<Dialog open={openSuccessDialog} onClose={() => setOpenSuccessDialog(false)}>
+  <DialogTitle>Booking Success</DialogTitle>
+  <DialogContent>
+    <Typography variant="body1">
+      Your booking has been confirmed successfully.
+    </Typography>
+  </DialogContent>
+  <DialogActions>
+    <Button onClick={() => {
+      setOpenSuccessDialog(false);
+      history.push('/UserDashboard');
+    }}>Close</Button>
+  </DialogActions>
+</Dialog>
+
     </>
   );
 }

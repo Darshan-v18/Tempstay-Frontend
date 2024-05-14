@@ -27,6 +27,8 @@ function ResponsiveAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [hotels, setHotels] = useState([]);
   const history = useHistory();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredHotels, setFilteredHotels] = useState([]);
 
   console.log(Cookies.get("token"));
   console.log(Cookies.get("userType"));
@@ -36,6 +38,16 @@ function ResponsiveAppBar() {
     fetchHotels();
   }, []); // Empty dependency array ensures the effect runs only once
 
+
+
+  const handleSearch = () => {
+    // Filter hotels based on the search query
+    const filtered = hotels.filter(hotel =>
+      hotel.hotelName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredHotels(filtered);
+    // setSearchQuery('');
+  };
 
 
   const fetchHotels = async () => {
@@ -84,28 +96,6 @@ function ResponsiveAppBar() {
     nav('/viewbookings'); // Redirect to the ViewBookings page
   };
 
-  // Sample hotel data
-  // const hotels = [
-  //   {
-  //     id: 1,
-  //     name: 'Luxury Hotel',
-  //     roomType: 'Deluxe',
-  //     numberOfRooms: 5,
-  //     price: 200,
-  //     image: 'https://images.pexels.com/photos/1134176/pexels-photo-1134176.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  //     backgroundColor: '#f0f0f0',
-  //   },
-  //   {
-  //     id: 2,
-  //     name: 'Cozy Inn',
-  //     roomType: 'Standard',
-  //     numberOfRooms: 10,
-  //     price: 100,
-  //     image: 'https://images.pexels.com/photos/53464/sheraton-palace-hotel-lobby-architecture-san-francisco-53464.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  //     backgroundColor: '#e0e0e0',
-  //   },
-  //   // Add more hotel data as needed
-  // ];
 
   const handleBookHotel = async (hotelId) => {
     try {
@@ -144,9 +134,9 @@ function ResponsiveAppBar() {
                 variant="h6"
                 noWrap
                 component="a"
-                href="#app-bar-with-responsive-menu"
+                href="/"
                 sx={{
-                  mr: 2,
+                  mr: 1,
                   display: { xs: 'none', md: 'flex' },
                   fontFamily: 'monospace',
                   fontWeight: 700,
@@ -162,7 +152,7 @@ function ResponsiveAppBar() {
                   backgroundColor: 'black',
                   color: 'white',
                   padding: '4px',
-                  marginLeft: '3px',
+                  marginLeft: '2px',
                   borderRadius: '5px',
                 }}
               >
@@ -244,8 +234,13 @@ function ResponsiveAppBar() {
                   label="Search Hotels"
                   variant="outlined"
                   size="small"
-                  sx={{ width: '350px', backgroundColor: 'white' }}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  sx={{ width: '350px', backgroundColor: 'white', mt: '1' }}
                 />
+                <Button onClick={handleSearch} variant="contained" sx={{ ml: 2 }}>
+                  Search
+                </Button>
               </Box>
 
               <Box sx={{ flexGrow: 0 }}>
@@ -285,7 +280,7 @@ function ResponsiveAppBar() {
             Explore Hotels
           </Typography>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            {hotels.map((hotel) => (
+            {(searchQuery === '' ? hotels : filteredHotels).map((hotel) => (
               <Box
                 key={hotel.id}
                 sx={{

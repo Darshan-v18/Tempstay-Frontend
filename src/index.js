@@ -22,7 +22,7 @@ import UserProfile from "./views/UserProfile";
 import ResetPassword from "./views/RestPassword";
 import BookHotel from "./views/BookHotel"
 import BillingPage from "./views/BillingPage";
-import ViewHotels from "./views/viewSpHotels";
+import ViewHotels from "./views/viewuserBookings";
 import UpdateHotel from "./views/updateHotel";
 import ViewBookings from "./views/ViewBooking";
 import AddImages from "./views/AddImages";

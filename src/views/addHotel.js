@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import "./addHotel.css";
 import axios from 'axios';
-import Cookies from 'js-cookie'; // Import Axios library for making HTTP requests
+import Cookies from 'js-cookie';
+import AppBar from '@mui/material/AppBar';
+import Container from '@mui/material/Container';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';// Import Axios library for making HTTP requests
 
 const AddHotel = () => {
   const [roomType, setRoomType] = useState('');
@@ -54,7 +58,20 @@ const AddHotel = () => {
 
   return (
     <div className='bagr'>
-      <div className="add-hotel-container">
+      <AppBar position="fixed">
+        <Container maxWidth="xl">
+          <Toolbar sx={{ justifyContent: 'space-between' }}>
+            <Typography variant="h6">
+              Upload Images
+            </Typography>
+            <Typography variant="h5">
+              TEMPSTAY
+            </Typography>
+            <div></div> {/* This empty div helps to push TEMPSTAY to the center */}
+          </Toolbar>
+        </Container>
+      </AppBar>
+      <div className="add-hotel-container" style={{ marginTop: '65px' }}>
         <form onSubmit={handleSubmit} className="hotel-form">
           <label>
             Type of Room:
