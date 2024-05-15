@@ -4,10 +4,11 @@ import axios from 'axios'; // Import axios for making API requests
 import "./SPProfile.css";
 import Cookies from 'js-cookie';
 
-const UserProfile = () => {
+const SPProfile = () => {
     // State variables to hold user information
-    const [userName, setusername] = useState('');
-    const [phoneNumber, setphoneNumber] = useState('');
+    const [hotelName, setHotelname] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [address, setAddress] = useState('');
 
     // Access the history object using useHistory hook
     const history = useHistory();
@@ -17,32 +18,37 @@ const UserProfile = () => {
         // Fetch user information (replace with actual fetching logic)
         const userInfo = JSON.parse(localStorage.getItem('userInfo'));
         if (userInfo) {
-            setusername(userInfo.username);
-            setphoneNumber(userInfo.phoneNumber);
+            setHotelname(userInfo.username);
+            setPhoneNumber(userInfo.phoneNumber);
+            setAddress(userInfo.address);
         }
     }, []);
 
     // Function to handle hotel name change
-    const handleusernameChange = (e) => {
-        setusername(e.target.value);
+    const handleHotelnameChange = (e) => {
+        setHotelname(e.target.value);
     };
 
     // Function to handle address change
-    const handlephoneNumberChange = (e) => {
-        setphoneNumber(e.target.value);
+    const handleAddressChange = (e) => {
+        setAddress(e.target.value);
     };
 
+    // Function to handle phone number change
+    const handlePhoneNumberChange = (e) => {
+        setPhoneNumber(e.target.value);
+    };
 
     // Function to update user information and redirect to "/SPDashboard"
     const updateUserInformation = async () => {
         try {
             // Make API request to update user information
             const response = await axios.put(
-                "http://localhost:9030/api/updateuserdetails",
+                "http://localhost:9030/api/updatehotelownerdetails",
                 {
-                    userName,
+                    hotelName,
                     phoneNumber,
-             
+                    address
                 },
                 {
                     headers: {
@@ -56,7 +62,7 @@ const UserProfile = () => {
             console.log("User information updated:", response.data);
 
             // Redirect to "/SPDashboard"
-            history.push('/UserDashboard');
+            history.push('/SPDashboard');
         } catch (error) {
             // Handle error
             console.error("Error updating user information:", error.message);
@@ -73,14 +79,18 @@ const UserProfile = () => {
                 </div>
             </nav>
             <div className="user-profile-container">
-                <h2>User Profile Update</h2>
+                <h2>User Profile</h2>
                 <div>
-                    <label>User Name:</label>
-                    <input type="text" value={userName} onChange={handleusernameChange} />
+                    <label>Hotel Name:</label>
+                    <input type="text" value={hotelName} onChange={handleHotelnameChange} />
                 </div>
                 <div>
-                    <label>phoneNumber:</label>
-                    <input type="text" value={phoneNumber} onChange={handlephoneNumberChange} />
+                    <label>Address:</label>
+                    <input type="text" value={address} onChange={handleAddressChange} />
+                </div>
+                <div>
+                    <label>Phone Number:</label>
+                    <input type="text" value={phoneNumber} onChange={handlePhoneNumberChange} />
                 </div>
                 <button onClick={updateUserInformation}>Save</button>
             </div>
@@ -88,4 +98,4 @@ const UserProfile = () => {
     );
 };
 
-export default UserProfile;
+export default SPProfile;

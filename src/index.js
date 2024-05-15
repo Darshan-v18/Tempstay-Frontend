@@ -18,7 +18,7 @@ import ForgotPassword from "./views/ForgotPassword";
 import UserDashboard from "./views/UserDashboard";
 import SPDashboard from "./views/SPDashboard";
 import addHotel from "./views/addHotel";
-import UserProfile from "./views/UserProfile";
+import SPProfile from "./views/SPProfile";
 import ResetPassword from "./views/RestPassword";
 import BookHotel from "./views/BookHotel"
 import BillingPage from "./views/BillingPage";
@@ -26,6 +26,8 @@ import ViewHotels from "./views/viewuserBookings";
 import UpdateHotel from "./views/updateHotel";
 import ViewBookings from "./views/ViewBooking";
 import AddImages from "./views/AddImages";
+import ServiceProviderHotelInfo from "./views/SPHotelInfo"
+import UserProfile from "./views/UserProfile";
 // import { UserTypeContext } from './constants/UserTypeContext';
 
 const App = () => {
@@ -45,13 +47,15 @@ const App = () => {
         <Route component={SPDashboard} path="/SPDashboard" />
         <Route component={addHotel} path="/addhotel" />
         <Route component={UpdateHotel} path="/updateHotel" />
-        <Route component={UserProfile} path="/userProfile" />
+        <Route component={SPProfile} path="/SPProfile" />
         <Route component={ViewBookings} path="/viewbookings" />
         <Route component={ResetPassword} path="/ResetPassword" />
         <Route component={BookHotel} path="/bookhotel" />
         <Route component={BillingPage} path="/billing" />
         <Route component={ViewHotels} path="/viewSpHotel" />
         <Route component={AddImages} path="/addImages" />
+        <Route component={ServiceProviderHotelInfo} path="/hotelInfo" />
+        <Route component={UserProfile} path="/UserProfile" />
         <Route component={NotFound} path="**" />
         <Redirect to="**" />
       </Switch>

@@ -1,5 +1,6 @@
 // ViewHotels.js
 import React, { useState, useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import './viewBookings.css'; // Import CSS file for styling
 import Hotel1 from '../Images/Hotel1.jpg';
 import Hotel2 from '../Images/Hotel2.jpg';
@@ -18,9 +19,12 @@ import DialogActions from '@mui/material/DialogActions';
 
 
 const ViewHotels = () => {
+    const history = useHistory();
+    const location = useLocation();
     const [bookings, setBookings] = useState([]);
     const [openCancelDialog, setOpenCancelDialog] = useState(false);
     const [bookingIdToCancel, setBookingIdToCancel] = useState(null);
+    const [openSuccessDialog, setOpenSuccessDialog] = useState(false);
     // Sample hotel data
     // const hotels = [
     //     { name: 'Hotel A', location: 'City A', type: 'Luxury', price: '$200', image: Hotel1 },
@@ -49,19 +53,20 @@ const ViewHotels = () => {
 
     const handleCancelBooking = async () => {
         try {
-          await axios.put(`http://localhost:9030/api/deletebooking`, null, {
-            headers: {
-              token: Cookies.get('token'),
-              role: Cookies.get('userType'),
-              roomBookingId: bookingIdToCancel,
-            },
-          });
-          fetchBookings(); // Refresh user bookings after cancellation
-          setOpenCancelDialog(false); // Close the cancel dialog
+            await axios.put(`http://localhost:9030/api/checkoutuser`, null, {
+                headers: {
+                    token: Cookies.get('token'),
+                    role: Cookies.get('userType'),
+                    roomBookingId: bookingIdToCancel,
+                },
+            });
+            fetchBookings(); // Refresh user bookings after cancellation
+            setOpenCancelDialog(false);
+            setOpenSuccessDialog(true);// Close the cancel dialog
         } catch (error) {
-          console.error('Error canceling booking:', error);
+            console.error('Error canceling booking:', error);
         }
-      };
+    };
     const openCancelDialogForcheckout = (bookingId) => {
         setBookingIdToCancel(bookingId);
         setOpenCancelDialog(true);
@@ -111,6 +116,22 @@ const ViewHotels = () => {
                 <DialogActions>
                     <Button onClick={() => setOpenCancelDialog(false)}>Cancel</Button>
                     <Button onClick={handleCancelBooking} variant="contained" color="error">Confirm</Button>
+                </DialogActions>
+            </Dialog>
+
+
+            <Dialog open={openSuccessDialog} onClose={() => setOpenSuccessDialog(false)}>
+                <DialogTitle>Checkout Success</DialogTitle>
+                <DialogContent>
+                    <Typography variant="body1">
+                        Customer has successfully checked out.
+                    </Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => {
+                        setOpenSuccessDialog(false);
+                        history.push('/SPDashboard');
+                    }}>Close</Button>
                 </DialogActions>
             </Dialog>
         </div>

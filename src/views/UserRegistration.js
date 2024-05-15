@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./UserRegistration.css";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import Cookies from "js-cookie";
@@ -12,19 +11,42 @@ const UserRegister = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const history = useHistory();
 
+
+  const validatePassword = (password) => {
+    // Check if the password length is at least 6 characters
+    if (password.length < 6) {
+      return false;
+    }
+    // Check if the password contains at least one special character
+    const specialChars = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+    if (!specialChars.test(password)) {
+      return false;
+    }
+    // Check if the password contains at least one number
+    const numbers = /[0-9]/;
+    if (!numbers.test(password)) {
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+
+    if (!validatePassword(password)) {
+      setErrorMessage("Password must be at least 6 characters long and contain at least one special character and one number.");
+      return;
+    }
+    
+    
     const userData = {
       userName,
       email,
       phoneNumber,
       password,
     };
-    console.log("Service Provider Data:", userData);
-
     try {
-      // Make POST request to backend API using Axios
       const response = await axios.post(
         "http://localhost:9030/api/adduser",
         userData,
@@ -36,13 +58,10 @@ const UserRegister = () => {
         }
       );
 
-      // Check if request was successful
-      console.log("Response:", response.data); // Log the response data
+      console.log("Response:", response.data);
       console.log("User successfully registered.");
       Cookies.set("token", response.data.token, { expires: 7 });
       history.push("/login", { registrationSuccess: true });
-
-
     } catch (error) {
       if (error.response && error.response.status === 400) {
         setErrorMessage("User already exists");
@@ -53,81 +72,49 @@ const UserRegister = () => {
   };
 
   return (
-    <div className="user-registration">
-      {errorMessage && (
-        <div className="modal">
-          <div className="modal-content">
-            <span className="close" onClick={() => setErrorMessage("")}>
-              ×
-            </span>
-            <p>{errorMessage}</p>
+    <div className="min-h-screen bg-cover" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")' }}>
+      <nav className="bg-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-center h-16">
+            <div className="flex-shrink-0 flex items-center">
+              <span className="text-white text-xl font-bold">TEMPSTAY</span>
+            </div>
           </div>
         </div>
-      )}
-      <div className="login-nav">
-        <div className="home-nav">
-          <span className="logo">TEMPSTAY</span>
-          <div data-thq="thq-close-menu" className="home-close-menu"></div>
+      </nav>
+      <div className="min-h-screen flex justify-center items-center">
+        <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-lg">
+          <h2 className="text-3xl text-center font-bold text-gray-800 mb-6">User Registration</h2>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="mb-4">
+              <label htmlFor="userName" className="block text-sm font-medium text-gray-700">Username</label>
+              <input type="text" id="userName" value={userName} onChange={(e) => setUserName(e.target.value)} required className="form-control" />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email address</label>
+              <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="form-control" />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700">Phone Number</label>
+              <input type="tel" id="phoneNumber" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required className="form-control" />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+              <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="form-control" />
+            </div>
+            <div>
+              <button type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Register</button>
+            </div>
+          </form>
+          {errorMessage && (
+            <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75">
+              <div className="bg-white p-4 border border-gray-200 rounded-lg shadow-lg">
+                <p className="text-lg text-center text-red-600">{errorMessage}</p>
+                <button className="block mx-auto mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700" onClick={() => setErrorMessage("")}>OK</button>
+              </div>
+            </div>
+          )}
         </div>
-      </div>
-      <div className="login-container">
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="userName" className="form-label">
-              Username
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="userName"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="email" className="form-label">
-              Email address
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="phoneNumber" className="form-label">
-              Phone Number
-            </label>
-            <input
-              type="tel"
-              className="form-control"
-              id="phoneNumber"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="password" className="form-label">
-              Password
-            </label>
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <button type="submit" className="btn btn-primary">
-            Register
-          </button>
-        </form>
       </div>
     </div>
   );

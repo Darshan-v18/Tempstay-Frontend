@@ -21,7 +21,9 @@ const SPDashboard = () => {
     console.log(Cookies.get("email"))
 
     const handleLogout = () => {
-        localStorage.removeItem('userToken');
+        Cookies.remove("userType");
+        Cookies.remove("token");
+        Cookies.remove("email");
         history.push('/login');
     };
 
@@ -38,7 +40,7 @@ const SPDashboard = () => {
         if (setting === 'Logout') {
             handleLogout();
         } else if (setting === 'Profile') {
-            history.push('/userprofile');
+            history.push('/SPprofile');
         }
     };
 
@@ -46,11 +48,11 @@ const SPDashboard = () => {
         <div className='bagr'>
             <nav className="navbar">
                 <div className="navbar-container">
-                    <Link to="/" className="navbar-logo">TEMPSTAY</Link>
+                    <Link to="/SPDashboard" className="navbar-logo">TEMPSTAY</Link>
                     <div className="nav-options">
                         <Link to="/addhotel" className="nav-link" onClick={handleCloseUserMenu}>Add Hotel</Link>
                         <Link to="/viewSPHotel" className="nav-link" onClick={handleCloseUserMenu}>View Bookings</Link>
-                        <Link to="/updatehotel" className="nav-link" onClick={handleCloseUserMenu}>Update Hotel</Link>
+                        <Link to="/hotelInfo" className="nav-link" onClick={handleCloseUserMenu}>Update Hotel</Link>
                         <Link to="/addimages" className="nav-link" onClick={handleCloseUserMenu}>Add Images</Link> {/* New Link */}
                     </div>
 

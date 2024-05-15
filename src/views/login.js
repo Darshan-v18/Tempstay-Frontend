@@ -1,20 +1,23 @@
-// login.js
-
 import React, { useState, useEffect } from "react";
 import "./login.css";
 import ForgotPassword from "./ForgotPassword";
 import axios from "axios";
 import Cookies from "js-cookie";
 import OTPPopup from "./OTPPopup";
+import Stack from '@mui/material/Stack';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userType, setUserType] = useState("user");
   const [showOTPPopup, setShowOTPPopup] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showInvalidPopup, setShowInvalidPopup] = useState(false);
+  const [loading, setLoading] = useState(false); // State to track if invalid login popup should be shown
+  const [loginSuccess, setLoginSuccess] = useState(false);
 
   const nav = (path) => {
-    // Your navigation logic here
     window.location.href = path;
   };
 
@@ -31,6 +34,7 @@ const Login = (props) => {
   };
 
   const handleForgotPassword = () => {
+    Cookies.set("userType", userType);
     nav("/ForgotPassword");
   };
 
@@ -38,32 +42,50 @@ const Login = (props) => {
     setShowOTPPopup(true);
     Cookies.set("userType", userType);
     Cookies.set("email", email);
-    
-
   };
 
-
   const handleOTPSubmit = async (otp) => {
-    // Handle OTP submission here
     setShowOTPPopup(false);
     if (userType === "user") {
       nav("/UserDashboard");
     } else if (userType === "serviceprovider") {
       nav("/SPDashboard");
     }
+    setLoginSuccess(true);
   };
+  const validatePassword = (password) => {
+    // Check if the password length is at least 6 characters
+    if (password.length < 6) {
+      return false;
+    }
+    // Check if the password contains at least one special character
+    const specialChars = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+    if (!specialChars.test(password)) {
+      return false;
+    }
+    // Check if the password contains at least one number
+    const numbers = /[0-9]/;
+    if (!numbers.test(password)) {
+      return false;
+    }
+    return true;
+  };
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // Add your form submission logic here
+    setLoading(true);
+    if (!validatePassword(password)) {
+      setErrorMessage("Password must be at least 6 characters long and contain at least one special character and one number.");
+      return;
+    }
+
     const userData = {
       email,
       password,
     };
-    console.log("User Data:", userData, userType);
 
     try {
-      // Make POST request to backend API using Axios
       const response = await axios.post(
         "http://localhost:9030/api/login",
         userData,
@@ -75,91 +97,168 @@ const Login = (props) => {
         }
       );
 
-      // Check if request was successful
-      console.log("Response:", response.data); // Log the response data
+      console.log("Response:", response.data);
       console.log("User login successfully");
       handleLoginSuccess();
     } catch (error) {
       console.log(error);
+      // Show invalid login popup if login fails
+      setShowInvalidPopup(true);
+    } finally {
+      setLoading(false); // Set loading state to false after the request is completed
     }
   };
-
 
   const handleCloseOTPPopup = () => {
     setShowOTPPopup(false);
   };
 
+  const handleCloseInvalidPopup = () => {
+    setShowInvalidPopup(false);
+  };
+
   return (
-    <div className="login-page">
-      <div className="login-nav">
-        <div className="home-nav">
-          <span className="logo">TEMPSTAY</span>
-          <div data-thq="thq-close-menu" className="home-close-menu"></div>
+    <div
+      className="min-h-screen bg-cover"
+      style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")' }}
+    >
+      <nav className="bg-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-center h-16">
+            <span className="text-white text-xl font-bold">TEMPSTAY</span>
+          </div>
         </div>
-      </div>
-      <div className="login-container">
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <div className="radio-buttons">
-              <input
-                type="radio"
-                id="user"
-                name="userType"
-                value="user"
-                checked={userType === "user"}
-                onChange={handleUserTypeChange}
-              />
-              <label htmlFor="user">User</label>
-              <input
-                type="radio"
-                id="serviceProvider"
-                name="userType"
-                value="serviceprovider"
-                checked={userType === "serviceprovider"}
-                onChange={handleUserTypeChange}
-              />
-              <label htmlFor="serviceProvider">Service provider</label>
+      </nav>
+      <div className="min-h-screen flex justify-center items-center">
+        <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-lg">
+          <h2 className="text-3xl text-center font-bold text-gray-800 mb-6">
+            Sign in to your account
+          </h2>
+          {/* Conditional rendering based on loading state */}
+          {loading ? (
+            <Stack sx={{ color: 'grey.500' }} spacing={2} direction="row" justifyContent="center">
+              <CircularProgress color="secondary" />
+            </Stack>
+          ) : (
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              <div>
+                <label htmlFor="userType" className="sr-only">
+                  User Type
+                </label>
+                <div className="mt-1 grid grid-cols-2 gap-4">
+                  <div className="flex items-center">
+                    <input
+                      id="user"
+                      name="userType"
+                      type="radio"
+                      value="user"
+                      checked={userType === "user"}
+                      onChange={handleUserTypeChange}
+                      className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                    />
+                    <label htmlFor="user" className="ml-2 block text-sm text-gray-900">
+                      User
+                    </label>
+                  </div>
+                  <div className="flex items-center">
+                    <input
+                      id="serviceProvider"
+                      name="userType"
+                      type="radio"
+                      value="serviceprovider"
+                      checked={userType === "serviceprovider"}
+                      onChange={handleUserTypeChange}
+                      className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                    />
+                    <label htmlFor="serviceProvider" className="ml-2 block text-sm text-gray-900">
+                      Service Provider
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                  Email address
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  value={email}
+                  onChange={handleEmailChange}
+                  className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2"
+                />
+              </div>
+              <div>
+                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                  Password
+                </label>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autoComplete="current-password"
+                  required
+                  value={password}
+                  onChange={handlePasswordChange}
+                  className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2"
+                />
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div className="text-sm">
+                  <button
+                    type="button"
+                    onClick={handleForgotPassword}
+                    className="font-medium text-indigo-600 hover:text-indigo-500"
+                  >
+                    Forgot your password?
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <button
+                  type="submit"
+                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Sign in
+                </button>
+              </div>
+            </form>
+          )}
+          {showOTPPopup && <OTPPopup onSubmit={handleOTPSubmit} onClose={handleCloseOTPPopup} />}
+          {showInvalidPopup && (
+            <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75">
+              <div className="bg-white p-4 border border-gray-200 rounded-lg shadow-lg">
+                <p className="text-lg text-center text-red-600">Invalid Email/Password</p>
+                <button
+                  className="block mx-auto mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700"
+                  onClick={handleCloseInvalidPopup}
+                >
+                  OK
+                </button>
+              </div>
             </div>
-          </div>
-          <div className="mb-3">
-            <label htmlFor="exampleInputEmail1" className="form-label">
-              Email address
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="exampleInputEmail1"
-              aria-describedby="emailHelp"
-              value={email}
-              onChange={handleEmailChange}
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="exampleInputPassword1" className="form-label">
-              Password
-            </label>
-            <input
-              type="password"
-              className="form-control"
-              id="exampleInputPassword1"
-              value={password}
-              onChange={handlePasswordChange}
-            />
-          </div>
-          <div id="button-group">
-            <button
-              type="button"
-              className="btn-forgot"
-              onClick={handleForgotPassword}
-            >
-              Forgot password
-            </button>
-          </div>
-          <button type="submit" className="btn btn-primary">
-            Login
-          </button>
-        </form>
-        <div>{showOTPPopup && <OTPPopup onSubmit={handleOTPSubmit} onClose={handleCloseOTPPopup} />}</div>
+          )}
+
+          {errorMessage && (
+            <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75">
+              <div className="bg-white p-4 border border-gray-200 rounded-lg shadow-lg">
+                <p className="text-lg text-center text-red-600">{errorMessage}</p>
+                <button className="block mx-auto mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700" onClick={() => setErrorMessage("")}>OK</button>
+              </div>
+            </div>
+          )}
+
+          {loginSuccess && (
+            <div className="text-green-600 text-center font-bold mt-4">
+              Login successful! Redirecting to dashboard...
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -13,12 +13,12 @@ const ForgotPassword = (props) => {
   const [userType, setUserType] = useState("");
   const [Showotpforgot, setShowOTPPopup] = useState(false);
 
-  
+
   const nav = (path) => {
     // Your navigation logic here
     window.location.href = path;
   };
-  
+
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
@@ -27,17 +27,23 @@ const ForgotPassword = (props) => {
   const handleLoginSuccess = () => {
     setShowOTPPopup(true);
   };
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    const users=Cookies.get("userType");
+    console.log(users)
+    if(users=="serviceprovider"){
+      nav("/ResetPassword");
+      return;
+    }
     try {
 
       console.log(Cookies.get("userType"));
       // Make POST request to backend API using Axios
       const response = await axios.post(
-        "http://localhost:9030/api/forgotpassword",{
-        },
+        "http://localhost:9030/api/forgotpassword", {
+      },
         {
           headers: {
             "Content-Type": "application/json",
@@ -48,11 +54,11 @@ const ForgotPassword = (props) => {
       );
 
 
-       handleLoginSuccess();
+      handleLoginSuccess();
       // Check if request was successful
       console.log("Response:", response.data); // Log the response data
       setSuccessMessage("OTP sent to your email.");
-      
+
 
     } catch (error) {
       console.log(error);
@@ -98,7 +104,7 @@ const ForgotPassword = (props) => {
             Submit
           </button>
         </form>
-        <div>{Showotpforgot && <OTPforgot onSubmit={handleOTPSubmit} onClose={handleCloseOTPPopup}  />}</div>
+        <div>{Showotpforgot && <OTPforgot onSubmit={handleOTPSubmit} onClose={handleCloseOTPPopup} />}</div>
       </div>
     </div>
   );
