@@ -118,7 +118,7 @@ function ViewBookings() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             View Bookings
           </Typography>
-          <Typography variant="h5">
+          <Typography variant="h5" >
             TEMPSTAY
           </Typography>
           <div></div>

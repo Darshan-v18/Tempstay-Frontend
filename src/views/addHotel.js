@@ -56,6 +56,20 @@ const AddHotel = () => {
     history.push('/SPDashboard');
   };
 
+
+  const handleNumRoomsChange = (e) => {
+    const value = e.target.value;
+    if (value === '' || (!isNaN(value) && parseInt(value) >= 0)) {
+      setNumRooms(value);
+    }
+  };
+  
+  const handlePriceChange = (e) => {
+    const value = e.target.value;
+    if (value === '' || (!isNaN(value) && parseInt(value) >= 0)) {
+      setPrice(value);
+    }
+  };
   return (
     <div className='bagr'>
       <AppBar position="fixed">
@@ -85,11 +99,11 @@ const AddHotel = () => {
 
           <label>
             Number of Rooms:
-            <input type="number" value={numRooms} onChange={e => setNumRooms(e.target.value)} />
+            <input type="number" value={numRooms} onChange={handleNumRoomsChange} />
           </label>
           <label>
             Price:
-            <input type="number" value={price} onChange={e => setPrice(e.target.value)} />
+            <input type="number" value={price} onChange={handlePriceChange} />
           </label>
           <button type="submit">Submit</button>
           <button type="button" onClick={handleCancel} className="cancel-button">

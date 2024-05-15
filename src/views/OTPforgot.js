@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const OTPforgot = ({ onSubmit,onClose  }) => {
+const OTPforgot = ({ onSubmit, onClose }) => {
   const [otp, setOTP] = useState(""); // State to store the OTP entered by the user
 
   const handleChange = (event) => {
@@ -12,18 +12,16 @@ const OTPforgot = ({ onSubmit,onClose  }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-
       // Make a request to verify the OTP
       const response = await axios.post(
-        `http://localhost:9030/api/verifyOtpforforgotpassword`,{
-
-        },
+        `http://localhost:9030/api/verifyOtpforforgotpassword`,
+        {},
         {
           headers: {
             "Content-Type": "application/json",
             otp: otp,
             email: Cookies.get("email"), // Include email in the headers
-          }
+          },
         }
       );
       console.log("Response:", response);
@@ -40,33 +38,53 @@ const OTPforgot = ({ onSubmit,onClose  }) => {
   };
 
   return (
-    <div className="modal d-block">
-      <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">Enter OTP</h5>
-            <button type="button" className="close" aria-label="Close" onClick={handleClose}>
-              <span aria-hidden="true">&times;</span>
+    <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-75">
+      <div className="bg-white rounded-lg overflow-hidden w-80">
+        <div className="flex justify-between items-center bg-gray-200 px-4 py-2">
+          <h5 className="text-lg font-semibold">OTP Sent to Email</h5>
+          <button
+            type="button"
+            className="text-gray-500 hover:text-gray-700 focus:outline-none"
+            onClick={handleClose}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+        <div className="p-4">
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label htmlFor="otpInput" className="block text-sm font-medium text-gray-700">
+                OTP
+              </label>
+              <input
+                type="text"
+                className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md px-3 py-2"
+                id="otpInput"
+                placeholder="Enter OTP"
+                value={otp}
+                onChange={handleChange}
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Submit
             </button>
-          </div>
-          <div className="modal-body">
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label htmlFor="otpInput">OTP</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="otpInput"
-                  placeholder="Enter OTP"
-                  value={otp}
-                  onChange={handleChange}
-                />
-              </div>
-              <button type="submit" className="btn btn-primary">
-                Submit
-              </button>
-            </form>
-          </div>
+          </form>
         </div>
       </div>
     </div>

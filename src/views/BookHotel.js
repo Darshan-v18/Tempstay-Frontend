@@ -60,7 +60,7 @@ function BookHotel() {
 
       const isRoomAvailable = availabilityResponse.data.message;
       console.log(isRoomAvailable);
-      if (isRoomAvailable=='No Rooms Available') {
+      if (isRoomAvailable == 'No Rooms Available') {
         // Handle case when room is not available
         console.log('The selected room is not available for the specified dates.');
         setOpenDialog(true);
@@ -154,40 +154,55 @@ function BookHotel() {
           label="Number of Rooms"
           type="number"
           value={numberOfRooms}
-          onChange={(e) => setNumberOfRooms(e.target.value)}
+          onChange={(e) => {
+            const value = e.target.value;
+            if (value === '' && e.nativeEvent.inputType === 'deleteContentBackward') {
+              setNumberOfRooms('');
+            } else {
+              const intValue = parseInt(value);
+              if (!isNaN(intValue) && intValue >= 1) {
+                setNumberOfRooms(intValue);
+              } else {
+                setNumberOfRooms('');
+              }
+            }
+          }}
           variant="outlined"
           sx={{ mb: 2 }}
         />
+
+
+
         <Button variant="contained" onClick={handleBookHotel}>
           Book Hotel
         </Button>
       </Container>
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
-  <DialogTitle>No Room Available</DialogTitle>
-  <DialogContent>
-    <Typography variant="body1">
-      Unfortunately, there are no rooms available for the selected dates.
-    </Typography>
-  </DialogContent>
-  <DialogActions>
-    <Button onClick={() => setOpenDialog(false)}>Close</Button>
-  </DialogActions>
-</Dialog>
+        <DialogTitle>No Room Available</DialogTitle>
+        <DialogContent>
+          <Typography variant="body1">
+            Unfortunately, there are no rooms available for the selected dates.
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenDialog(false)}>Close</Button>
+        </DialogActions>
+      </Dialog>
 
-<Dialog open={openSuccessDialog} onClose={() => setOpenSuccessDialog(false)}>
-  <DialogTitle>Booking Success</DialogTitle>
-  <DialogContent>
-    <Typography variant="body1">
-      Your booking has been confirmed successfully.
-    </Typography>
-  </DialogContent>
-  <DialogActions>
-    <Button onClick={() => {
-      setOpenSuccessDialog(false);
-      history.push('/UserDashboard');
-    }}>Close</Button>
-  </DialogActions>
-</Dialog>
+      <Dialog open={openSuccessDialog} onClose={() => setOpenSuccessDialog(false)}>
+        <DialogTitle>Booking Success</DialogTitle>
+        <DialogContent>
+          <Typography variant="body1">
+            Your booking has been confirmed successfully.
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => {
+            setOpenSuccessDialog(false);
+            history.push('/UserDashboard');
+          }}>Close</Button>
+        </DialogActions>
+      </Dialog>
 
     </>
   );
