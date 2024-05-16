@@ -13,6 +13,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
+import Rating from '@mui/material/Rating';
 
 
 function ViewBookings() {
@@ -25,6 +26,9 @@ function ViewBookings() {
   const [editedBooking, setEditedBooking] = useState(null);
   const [openCancelDialog, setOpenCancelDialog] = useState(false);
   const [bookingIdToCancel, setBookingIdToCancel] = useState(null);
+  const [openRatingDialog, setOpenRatingDialog] = useState(false);
+  const [selectedBookingId, setSelectedBookingId] = useState(null);
+  const [rating, setRating] = useState(0);
 
 
   useEffect(() => {
@@ -110,6 +114,35 @@ function ViewBookings() {
     setBookingIdToCancel(bookingId);
     setOpenCancelDialog(true);
   };
+  const openRatingDialogForBooking = (hotelownId) => {
+    setSelectedBookingId(hotelownId);
+    setOpenRatingDialog(true);
+  };
+
+  const handleRatingChange = (event) => {
+    setRating(event.target.value);
+  };
+
+  const handleSaveRating = async () => {
+    try {
+
+      console.log(selectedBookingId, rating);
+      // Send the rating to your backend API and handle it accordingly
+      const response = await axios.post(
+        'http://localhost:9030/api/addrating',
+        null,
+        {
+          headers: {
+            hotelownId: selectedBookingId,
+            rating: rating,
+          },
+        }
+      );
+      setOpenRatingDialog(false);
+    } catch (error) {
+      console.error('Error saving rating:', error);
+    }
+  };
 
   return (
     <Box>
@@ -125,42 +158,44 @@ function ViewBookings() {
         </Toolbar>
       </AppBar>
       <Container sx={{ marginTop: '80px', padding: '20px', backgroundColor: '#f0f0f0' }}>
-        <Typography variant="h4" component="h2" gutterBottom>
-          My Bookings
-        </Typography>
-        {userBookings.map((booking) => (
-          <Box key={booking.bookingId} sx={{ marginBottom: '20px', backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px' }}>
-            <Typography variant="h6" component="div">
-              Hotel Name: {booking.hotelName}
-            </Typography>
-            <Typography variant="subtitle1" component="div">
-              Booking ID: {booking.roomBookingId}
-            </Typography>
-            <Typography variant="subtitle1" component="div">
-              Check-in Date: {booking.checkinDate}
-            </Typography>
-            <Typography variant="subtitle1" component="div">
-              Check-out Date: {booking.checkoutDate}
-            </Typography>
-            <Typography variant="subtitle1" component="div">
-              Number of Rooms: {booking.numberOfRooms}
-            </Typography>
-            <Typography variant="subtitle1" component="div">
-              Amount: Rs{booking.priceToBePaid}
-            </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
-              <Button variant="contained" onClick={() => handleEdit(booking)} sx={{ mt: 0 }}>
-                Edit Booking
-              </Button>
-            </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
-              <Button variant="contained" onClick={() => openCancelDialogForBooking(booking.roomBookingId)} sx={{ mt: 1 }}>
-                Cancel Booking
-              </Button>
-            </Box>
-          </Box>
-        ))}
-      </Container>
+  <Typography variant="h4" component="h2" gutterBottom>
+    My Bookings
+  </Typography>
+  {userBookings.map((booking) => (
+    <Box key={booking.bookingId} sx={{ marginBottom: '20px', backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', display: 'flex', flexDirection: 'column' }}>
+      <Typography variant="h6" component="div">
+        Hotel Name: {booking.hotelName}
+      </Typography>
+      <Typography variant="subtitle1" component="div">
+        Booking ID: {booking.roomBookingId}
+      </Typography>
+      <Typography variant="subtitle1" component="div">
+        Check-in Date: {booking.checkinDate}
+      </Typography>
+      <Typography variant="subtitle1" component="div">
+        Check-out Date: {booking.checkoutDate}
+      </Typography>
+      <Typography variant="subtitle1" component="div">
+        Number of Rooms: {booking.numberOfRooms}
+      </Typography>
+      <Typography variant="subtitle1" component="div">
+        Amount: Rs{booking.priceToBePaid}
+      </Typography>
+      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', marginTop: '10px' }}>
+        <Button variant="contained" onClick={() => handleEdit(booking)} sx={{ marginRight: '10px' }}>
+          Edit Booking
+        </Button>
+        <Button variant="contained" onClick={() => openCancelDialogForBooking(booking.roomBookingId)} sx={{ marginRight: '10px' }}>
+          Cancel Booking
+        </Button>
+        <Button variant="contained" onClick={() => openRatingDialogForBooking(booking.hotelownId)}>
+          Rate Booking
+        </Button>
+      </Box>
+    </Box>
+  ))}
+</Container>
+
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Edit Booking</DialogTitle>
         <DialogContent>
@@ -209,6 +244,21 @@ function ViewBookings() {
         <DialogActions>
           <Button onClick={() => setOpenCancelDialog(false)}>Cancel</Button>
           <Button onClick={handleCancelBooking} variant="contained" color="error">Confirm</Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={openRatingDialog} onClose={() => setOpenRatingDialog(false)}>
+        <DialogTitle>Rate Booking</DialogTitle>
+        <DialogContent>
+          <Typography>Rate your experience for this booking:</Typography>
+          <Rating
+            name="rating"
+            value={rating}
+            onChange={handleRatingChange}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenRatingDialog(false)}>Cancel</Button>
+          <Button onClick={handleSaveRating}>Save</Button>
         </DialogActions>
       </Dialog>
 
