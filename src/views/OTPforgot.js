@@ -28,6 +28,7 @@ const OTPforgot = ({ onSubmit, onClose }) => {
       // If OTP verification is successful, call the onSubmit function passed from the parent component
       onSubmit(otp);
     } catch (error) {
+      alert("Please enter the correct Otp");
       console.error("Error verifying OTP:", error);
       // Handle error (e.g., display error message to the user)
     }

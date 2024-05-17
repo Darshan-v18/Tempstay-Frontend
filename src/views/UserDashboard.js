@@ -22,7 +22,7 @@ import axios from 'axios';
 
 
 const pages = ['View Booking'];
-const settings = ['Profile', 'Logout'];
+const settings = ['Edit Profile', 'Logout'];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -42,14 +42,39 @@ function ResponsiveAppBar() {
 
 
 
-  const handleSearch = () => {
-    // Filter hotels based on the search query
-    const filtered = hotels.filter(hotel =>
-      hotel.hotelName.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setFilteredHotels(filtered);
-    // setSearchQuery('');
+
+
+
+
+
+  const handleSearch = async () => {
+    try {
+      // Make API request to fetch filtered hotels based on the search query
+      const response = await axios.get('http://localhost:9030/api/searchbyaddressandhotelname', {
+        headers: {
+          searchItem: searchQuery,
+        }
+      });
+      console.log(response.data);
+      setFilteredHotels(response.data); // Store fetched filtered data in state
+    } catch (error) {
+      console.error('Error fetching filtered hotel data:', error);
+    }
   };
+
+  const handleSearchClick = () => {
+    // Call the handleSearch function when the search button is clicked
+    handleSearch();
+  };
+
+  // const handleSearch = () => {
+  //   // Filter hotels based on the search query
+  //   const filtered = hotels.filter(hotel =>
+  //     hotel.hotelName.toLowerCase().includes(searchQuery.toLowerCase())
+  //   );
+  //   setFilteredHotels(filtered);
+  //   // setSearchQuery('');
+  // };
 
 
   const fetchHotels = async () => {
@@ -64,6 +89,23 @@ function ResponsiveAppBar() {
       console.log(response.data);
       Cookies.set("ownerID", response.data.id, { expires: 7 })
       setHotels(response.data); // Store fetched data in state
+
+
+      const hotelsWithImages = await Promise.all(response.data.map(async hotel => {
+        // Make API request to fetch images for the current hotel
+        const imageResponse = await axios.get('http://localhost:9030/api/getimagesbyhotelid', {
+          headers: {
+            hotelownId: hotel.id,
+          },
+        });
+        console.log(imageResponse.data);
+        // Merge the fetched images with the current hotel object
+        return { ...hotel, images: imageResponse.data };
+      }));
+
+      // Update state with hotels including images
+      setHotels(hotelsWithImages);
+
     } catch (error) {
       console.error('Error fetching hotel data:', error);
     }
@@ -248,7 +290,7 @@ function ResponsiveAppBar() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   sx={{ width: '350px', backgroundColor: 'white', mt: '1' }}
                 />
-                <Button onClick={handleSearch} variant="contained" sx={{ ml: 2 }}>
+                <Button onClick={handleSearchClick} variant="contained" sx={{ ml: 2 }}>
                   Search
                 </Button>
               </Box>
@@ -303,13 +345,15 @@ function ResponsiveAppBar() {
                 }}
               >
                 <Box display="flex" alignItems="center">
-                  <img
-                    src={hotel.image}
-                    alt={hotel.name}
-                    width={100}
-                    height={100}
-                    style={{ marginRight: '20px', borderRadius: '5px' }}
-                  />
+                  {hotel.images && hotel.images.length > 0 && (
+                    <img
+                      src={hotel.images[1].imageURL} // Display the first image URL if images array is defined and not empty
+                      alt={hotel.hotelName}
+                      width={100}
+                      height={100}
+                      style={{ marginRight: '20px', borderRadius: '5px' }}
+                    />
+                  )}
                   <Box>
                     <Typography variant="h6" component="h3">
                       {hotel.hotelName}
