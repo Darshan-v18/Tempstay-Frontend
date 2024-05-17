@@ -349,8 +349,8 @@ function ResponsiveAppBar() {
                     <img
                       src={hotel.images[1].imageURL} // Display the first image URL if images array is defined and not empty
                       alt={hotel.hotelName}
-                      width={100}
-                      height={100}
+                      width={300}
+                      height={300}
                       style={{ marginRight: '20px', borderRadius: '5px' }}
                     />
                   )}
