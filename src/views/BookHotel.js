@@ -80,6 +80,12 @@ function BookHotel() {
         },
       });
 
+      const { priceToBePaid } = response.data;
+    console.log('Price to be paid:', priceToBePaid);
+
+    // Show alert message with the amount to be paid
+    alert(`Amount to be paid is ${priceToBePaid}`);
+
       setOpenSuccessDialog(true);
 
     } catch (error) {
