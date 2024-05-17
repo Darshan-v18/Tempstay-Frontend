@@ -63,8 +63,8 @@ const ServiceProviderRegister = () => {
       console.log("Response:", response.data);
       console.log("User successfully registered.");
       Cookies.set("token", response.data.token, { expires: 7 });
-      console.log("Registration success:", registrationSuccess); // Log registration success state
-      history.push("/login", { registrationSuccess: true });
+       // Log registration success state
+      history.push("/login");
     } catch (error) {
       if (error.response && error.response.status === 400) {
         setErrorMessage("User already exists");

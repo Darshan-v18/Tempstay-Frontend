@@ -119,14 +119,36 @@ const ServiceProviderHotelInfo = () => {
                         fullWidth
                         margin="normal"
                     />
+
                     <TextField
+                        fullWidth
+                        label="New Number of Rooms"
+                        type="number"
+                        value={numberOfRoom}
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            if (value === '' && e.nativeEvent.inputType === 'deleteContentBackward') {
+                                setNewNumberOfRooms('');
+                            } else {
+                                const intValue = parseInt(value);
+                                if (!isNaN(intValue) && intValue >= 1) {
+                                    setNewNumberOfRooms(intValue);
+                                } else {
+                                    setNewNumberOfRooms('');
+                                }
+                            }
+                        }}
+                        variant="outlined"
+                        sx={{ mb: 2 }}
+                    />
+                    {/* <TextField
                         label="New Number of Rooms"
                         type="number"
                         value={numberOfRoom}
                         onChange={(e) => setNewNumberOfRooms(e.target.value)}
                         fullWidth
                         margin="normal"
-                    />
+                    /> */}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseDialog}>Cancel</Button>

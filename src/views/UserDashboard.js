@@ -19,6 +19,8 @@ import BookHotel from './BookHotel';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
+
+
 const pages = ['View Booking'];
 const settings = ['Profile', 'Logout'];
 
@@ -120,6 +122,8 @@ function ResponsiveAppBar() {
     }
     nav('/bookhotel');
   };
+
+
 
 
   return (
