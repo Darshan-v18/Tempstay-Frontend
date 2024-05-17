@@ -35,9 +35,16 @@ function BookHotel() {
 
 
   console.log(Cookies.get("ownerID"));
+
+  const today = new Date().toISOString().split('T')[0];
   const handleBookHotel = async () => {
     try {
 
+
+      if (numberOfRooms === '' || numberOfRooms <= 0) {
+        alert('Please enter a valid number for the number of rooms.');
+        return;
+      }
       console.log(selectedRoomType);
 
       // Make an HTTP request to fetch the room ID based on the selected room type
@@ -81,18 +88,32 @@ function BookHotel() {
       });
 
       const { priceToBePaid } = response.data;
-    console.log('Price to be paid:', priceToBePaid);
+      console.log('Price to be paid:', priceToBePaid);
 
-    // Show alert message with the amount to be paid
-    alert(`Amount to be paid is ${priceToBePaid}`);
+      // Show alert message with the amount to be paid
+      alert(`Amount to be paid is ${priceToBePaid}`);
 
       setOpenSuccessDialog(true);
 
     } catch (error) {
+      const numberRooms = numberOfRooms
       console.error('Error handling book hotel:', error);
+      alert(`${numberRooms} Rooms not Available, please try less number of rooms.`);
     }
   };
 
+
+  const handleCheckInDateChange = (e) => {
+    const selectedDate = e.target.value;
+    setCheckInDate(selectedDate);
+
+    // Calculate the next day's date
+    const nextDay = new Date(selectedDate);
+    nextDay.setDate(nextDay.getDate() + 1);
+
+    // Set the minimum checkout date as the next day
+    setCheckOutDate(nextDay.toISOString().split('T')[0]);
+  };
 
 
 
@@ -136,12 +157,13 @@ function BookHotel() {
           label="Check-In Date"
           type="date"
           value={checkinDate}
-          onChange={(e) => setCheckInDate(e.target.value)}
+          onChange={handleCheckInDateChange}
           InputLabelProps={{
             shrink: true,
           }}
           variant="outlined"
           sx={{ mb: 2 }}
+          inputProps={{ min: today }}
         />
         <TextField
           fullWidth
@@ -154,6 +176,7 @@ function BookHotel() {
           }}
           variant="outlined"
           sx={{ mb: 2 }}
+          inputProps={{ min: checkoutDate }}
         />
         <TextField
           fullWidth

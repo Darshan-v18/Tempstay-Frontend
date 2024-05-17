@@ -13,7 +13,7 @@ import Cookies from "js-cookie";
 
 const SPDashboard = () => {
     const [anchorElUser, setAnchorElUser] = useState(null);
-    const settings = ['Profile', 'Logout'];
+    const settings = ['Edit Profile', 'Logout'];
     const history = useHistory();
 
     console.log(Cookies.get("userType"))

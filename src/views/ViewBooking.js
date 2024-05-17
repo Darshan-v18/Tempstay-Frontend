@@ -19,8 +19,10 @@ import Rating from '@mui/material/Rating';
 function ViewBookings() {
   const [userBookings, setUserBookings] = useState([]);
   const [editingBooking, setEditingBooking] = useState(null);
-  const [checkinDate, setCheckinDate] = useState('');
-  const [checkoutDate, setCheckoutDate] = useState('');
+  // const [checkinDate, setCheckinDate] = useState('');
+  const [checkinDate, setCheckInDate] = useState('');
+  const [checkoutDate, setCheckOutDate] = useState('');
+  // const [checkoutDate, setCheckoutDate] = useState('');
   const [numberOfRooms, setNumberOfRooms] = useState('');
   const [open, setOpen] = useState(false);
   const [editedBooking, setEditedBooking] = useState(null);
@@ -31,6 +33,8 @@ function ViewBookings() {
   const [rating, setRating] = useState(0);
 
 
+
+  const today = new Date().toISOString().split('T')[0];
   useEffect(() => {
     fetchUserBookings();
   }, []);
@@ -39,8 +43,8 @@ function ViewBookings() {
   const openEditDialog = (booking) => {
     setEditedBooking(booking);
     setOpen(true);
-    setCheckinDate(booking.checkinDate);
-    setCheckoutDate(booking.checkoutDate);
+    setCheckInDate(booking.checkinDate);
+    setCheckOutDate(booking.checkoutDate);
     setNumberOfRooms(booking.numberOfRooms);
   };
 
@@ -62,8 +66,8 @@ function ViewBookings() {
 
   const handleEdit = (booking) => {
     setEditingBooking(booking);
-    setCheckinDate(booking.checkinDate);
-    setCheckoutDate(booking.checkoutDate);
+    setCheckInDate(booking.checkinDate);
+    setCheckOutDate(booking.checkoutDate);
     setNumberOfRooms(booking.numberOfRooms);
     setOpen(true);
   };
@@ -89,6 +93,8 @@ function ViewBookings() {
       // Update user bookings after editing
       fetchUserBookings();
       setEditingBooking(null);
+      alert("Booking updated Successfully");
+      setOpen(false);
     } catch (error) {
       console.error('Error editing booking:', error);
     }
@@ -144,6 +150,19 @@ function ViewBookings() {
     }
   };
 
+  const handleCheckInDateChange = (e) => {
+    const selectedDate = e.target.value;
+    setCheckInDate(selectedDate);
+
+    // Calculate the next day's date
+    const nextDay = new Date(selectedDate);
+    nextDay.setDate(nextDay.getDate() + 1);
+
+    // Set the minimum checkout date as the next day
+    setCheckOutDate(nextDay.toISOString().split('T')[0]);
+  };
+
+
   return (
     <Box>
       <AppBar position="fixed">
@@ -158,43 +177,43 @@ function ViewBookings() {
         </Toolbar>
       </AppBar>
       <Container sx={{ marginTop: '80px', padding: '20px', backgroundColor: '#f0f0f0' }}>
-  <Typography variant="h4" component="h2" gutterBottom>
-    My Bookings
-  </Typography>
-  {userBookings.map((booking) => (
-    <Box key={booking.bookingId} sx={{ marginBottom: '20px', backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', display: 'flex', flexDirection: 'column' }}>
-      <Typography variant="h6" component="div">
-        Hotel Name: {booking.hotelName}
-      </Typography>
-      <Typography variant="subtitle1" component="div">
-        Booking ID: {booking.roomBookingId}
-      </Typography>
-      <Typography variant="subtitle1" component="div">
-        Check-in Date: {booking.checkinDate}
-      </Typography>
-      <Typography variant="subtitle1" component="div">
-        Check-out Date: {booking.checkoutDate}
-      </Typography>
-      <Typography variant="subtitle1" component="div">
-        Number of Rooms: {booking.numberOfRooms}
-      </Typography>
-      <Typography variant="subtitle1" component="div">
-        Amount: Rs{booking.priceToBePaid}
-      </Typography>
-      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', marginTop: '10px' }}>
-        <Button variant="contained" onClick={() => handleEdit(booking)} sx={{ marginRight: '10px' }}>
-          Edit Booking
-        </Button>
-        <Button variant="contained" onClick={() => openCancelDialogForBooking(booking.roomBookingId)} sx={{ marginRight: '10px' }}>
-          Cancel Booking
-        </Button>
-        <Button variant="contained" onClick={() => openRatingDialogForBooking(booking.hotelownId)}>
-          Rate Booking
-        </Button>
-      </Box>
-    </Box>
-  ))}
-</Container>
+        <Typography variant="h4" component="h2" gutterBottom>
+          My Bookings
+        </Typography>
+        {userBookings.map((booking) => (
+          <Box key={booking.bookingId} sx={{ marginBottom: '20px', backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px', display: 'flex', flexDirection: 'column' }}>
+            <Typography variant="h6" component="div">
+              Hotel Name: {booking.hotelName}
+            </Typography>
+            <Typography variant="subtitle1" component="div">
+              Booking ID: {booking.roomBookingId}
+            </Typography>
+            <Typography variant="subtitle1" component="div">
+              Check-in Date: {booking.checkinDate}
+            </Typography>
+            <Typography variant="subtitle1" component="div">
+              Check-out Date: {booking.checkoutDate}
+            </Typography>
+            <Typography variant="subtitle1" component="div">
+              Number of Rooms: {booking.numberOfRooms}
+            </Typography>
+            <Typography variant="subtitle1" component="div">
+              Amount: Rs{booking.priceToBePaid}
+            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', marginTop: '10px' }}>
+              <Button variant="contained" onClick={() => handleEdit(booking)} sx={{ marginRight: '10px' }}>
+                Edit Booking
+              </Button>
+              <Button variant="contained" onClick={() => openCancelDialogForBooking(booking.roomBookingId)} sx={{ marginRight: '10px' }}>
+                Cancel Booking
+              </Button>
+              <Button variant="contained" onClick={() => openRatingDialogForBooking(booking.hotelownId)}>
+                Rate Booking
+              </Button>
+            </Box>
+          </Box>
+        ))}
+      </Container>
 
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Edit Booking</DialogTitle>
@@ -203,45 +222,47 @@ function ViewBookings() {
             label="Check-in Date"
             type="date"
             value={checkinDate}
-            onChange={(e) => setCheckinDate(e.target.value)}
+            onChange={handleCheckInDateChange}
             InputLabelProps={{
               shrink: true,
             }}
             fullWidth
             sx={{ mb: 2, mt: 1 }}
+            inputProps={{ min: today }}
           />
           <TextField
             label="Check-out Date"
             type="date"
             value={checkoutDate}
-            onChange={(e) => setCheckoutDate(e.target.value)}
+            onChange={(e) => setCheckOutDate(e.target.value)}
             InputLabelProps={{
               shrink: true,
             }}
             fullWidth
             sx={{ mb: 2 }}
+            inputProps={{ min: checkoutDate }}
           />
-         <TextField
-          fullWidth
-          label="Number of Rooms"
-          type="number"
-          value={numberOfRooms}
-          onChange={(e) => {
-            const value = e.target.value;
-            if (value === '' && e.nativeEvent.inputType === 'deleteContentBackward') {
-              setNumberOfRooms('');
-            } else {
-              const intValue = parseInt(value);
-              if (!isNaN(intValue) && intValue >= 1) {
-                setNumberOfRooms(intValue);
-              } else {
+          <TextField
+            fullWidth
+            label="Number of Rooms"
+            type="number"
+            value={numberOfRooms}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (value === '' && e.nativeEvent.inputType === 'deleteContentBackward') {
                 setNumberOfRooms('');
+              } else {
+                const intValue = parseInt(value);
+                if (!isNaN(intValue) && intValue >= 1) {
+                  setNumberOfRooms(intValue);
+                } else {
+                  setNumberOfRooms('');
+                }
               }
-            }
-          }}
-          variant="outlined"
-          sx={{ mb: 2 }}
-        />
+            }}
+            variant="outlined"
+            sx={{ mb: 2 }}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Cancel</Button>
