@@ -221,14 +221,27 @@ function ViewBookings() {
             fullWidth
             sx={{ mb: 2 }}
           />
-          <TextField
-            label="Number of Rooms"
-            type="number"
-            value={numberOfRooms}
-            onChange={(e) => setNumberOfRooms(e.target.value)}
-            fullWidth
-            sx={{ mb: 2 }}
-          />
+         <TextField
+          fullWidth
+          label="Number of Rooms"
+          type="number"
+          value={numberOfRooms}
+          onChange={(e) => {
+            const value = e.target.value;
+            if (value === '' && e.nativeEvent.inputType === 'deleteContentBackward') {
+              setNumberOfRooms('');
+            } else {
+              const intValue = parseInt(value);
+              if (!isNaN(intValue) && intValue >= 1) {
+                setNumberOfRooms(intValue);
+              } else {
+                setNumberOfRooms('');
+              }
+            }
+          }}
+          variant="outlined"
+          sx={{ mb: 2 }}
+        />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Cancel</Button>
