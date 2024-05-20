@@ -57,6 +57,7 @@ function ViewBookings() {
           role: Cookies.get('userType'),
         },
       });
+      
       console.log(response.data);
       setUserBookings(response.data);
     } catch (error) {
@@ -143,6 +144,13 @@ function ViewBookings() {
             rating: rating,
           },
         }
+      );
+      setUserBookings(prevBookings =>
+        prevBookings.map(booking =>
+          booking.roomBookingId === selectedBookingId
+            ? { ...booking, hasRated: true }
+            : booking
+        )
       );
       setOpenRatingDialog(false);
     } catch (error) {
