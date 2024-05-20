@@ -18,7 +18,9 @@ import ViewBookings from './ViewBooking';
 import BookHotel from './BookHotel';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-
+import Rating from 'react-rating';
+import Star from '@mui/icons-material/Star';
+import StarBorder from '@mui/icons-material/StarBorder';
 
 
 const pages = ['View Booking'];
@@ -347,7 +349,7 @@ function ResponsiveAppBar() {
                 <Box display="flex" alignItems="center">
                   {hotel.images && hotel.images.length > 0 && (
                     <img
-                      src={hotel.images[1].imageURL} // Display the first image URL if images array is defined and not empty
+                      src={hotel.images[0].imageURL} // Display the first image URL if images array is defined and not empty
                       alt={hotel.hotelName}
                       width={300}
                       height={300}
@@ -362,7 +364,13 @@ function ResponsiveAppBar() {
                       Hotel Address: {hotel.address}
                     </Typography>
                     <Typography variant="body1" sx={{ mr: 4 }}>
-                      Rating: {hotel.rating}
+                    Rating:
+                      <Rating
+                        readonly
+                        initialRating={hotel.rating}
+                        emptySymbol={<StarBorder />}
+                        fullSymbol={<Star />}
+                      />
                     </Typography>
                     <Typography variant="body1">phoneNumber: {hotel.phoneNumber}</Typography>
                   </Box>
