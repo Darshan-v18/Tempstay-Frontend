@@ -300,3 +300,32 @@
   background-color: #f5f5f5;
 }
 
+
+/* styles.css */
+.hotel-carousel {
+  width: 300px; /* Adjust the width as needed */
+  margin-right: 20px; /* Add margin between carousel and hotel details */
+}
+
+.carousel-image {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.carousel-arrow-next,
+.carousel-arrow-prev {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem; /* Adjust the font size as needed */
+  color: black; /* Arrow color */
+  cursor: pointer;
+}
+
+.carousel-arrow-next {
+  right: 10px; /* Adjust the distance from the right side */
+}
+
+.carousel-arrow-prev {
+  left: 10px; /* Adjust the distance from the left side */
+}
