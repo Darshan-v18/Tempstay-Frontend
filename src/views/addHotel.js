@@ -7,7 +7,8 @@ import AppBar from '@mui/material/AppBar';
 import Container from '@mui/material/Container';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';// Import Axios library for making HTTP requests
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 const AddHotel = () => {
   const [roomType, setRoomType] = useState('');
   const [numRooms, setNumRooms] = useState('');
@@ -63,27 +64,36 @@ const AddHotel = () => {
       setNumRooms(value);
     }
   };
-  
+
   const handlePriceChange = (e) => {
     const value = e.target.value;
     if (value === '' || (!isNaN(value) && parseInt(value) >= 0)) {
       setPrice(value);
     }
   };
+
+
+  const handleBack = () => {
+    window.history.back();
+  };
   return (
     <div className='bagr'>
       <AppBar position="fixed">
-        <Container maxWidth="xl">
-          <Toolbar sx={{ justifyContent: 'space-between' }}>
-            <Typography variant="h6">
-              Upload Images
-            </Typography>
-            <Typography variant="h5">
-              TEMPSTAY
-            </Typography>
-            <div></div> {/* This empty div helps to push TEMPSTAY to the center */}
-          </Toolbar>
-        </Container>
+        <Toolbar>
+          <button
+            onClick={handleBack}
+            className="absolute left-4 text-white text-xl font-medium focus:outline-none hover:text-indigo-500 hover:scale-110 transition duration-200"
+          >
+            <FontAwesomeIcon icon={faArrowLeft} />
+          </button>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
+            Add Images
+          </Typography>
+          <Typography variant="h5" >
+            TEMPSTAY
+          </Typography>
+          <div></div>
+        </Toolbar>
       </AppBar>
       <div className="add-hotel-container" style={{ marginTop: '65px' }}>
         <form onSubmit={handleSubmit} className="hotel-form">

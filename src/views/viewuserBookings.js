@@ -16,7 +16,8 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const ViewHotels = () => {
     const history = useHistory();
@@ -71,20 +72,30 @@ const ViewHotels = () => {
         setBookingIdToCancel(bookingId);
         setOpenCancelDialog(true);
     };
+
+
+    const handleBack = () => {
+        window.history.back();
+    };
+
     return (
         <div className="hotels-container">
             <AppBar position="fixed">
-                <Container maxWidth="xl">
-                    <Toolbar sx={{ justifyContent: 'space-between' }}>
-                        <Typography variant="h6">
-                            USER BOOKINGS
-                        </Typography>
-                        <Typography variant="h5">
-                            TEMPSTAY
-                        </Typography>
-                        <div></div> {/* This empty div helps to push TEMPSTAY to the center */}
-                    </Toolbar>
-                </Container>
+                <Toolbar>
+                    <button
+                        onClick={handleBack}
+                        className="absolute left-4 text-white text-xl font-medium focus:outline-none hover:text-indigo-500 hover:scale-110 transition duration-200"
+                    >
+                        <FontAwesomeIcon icon={faArrowLeft} />
+                    </button>
+                    <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
+                        User Bookings
+                    </Typography>
+                    <Typography variant="h5" >
+                        TEMPSTAY
+                    </Typography>
+                    <div></div>
+                </Toolbar>
             </AppBar>
             <ul className="hotel-list" style={{ marginTop: '100px' }}>
                 {bookings.map((booking, index) => (

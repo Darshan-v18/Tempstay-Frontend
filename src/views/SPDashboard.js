@@ -39,29 +39,29 @@ const SPDashboard = () => {
         handleCloseUserMenu();
         if (setting === 'Logout') {
             handleLogout();
-        } else if (setting === 'Profile') {
+        } else if (setting === 'Edit Profile') {
             history.push('/SPprofile');
         }
     };
 
     return (
         <div className='bagr'>
-            <nav className="navbar">
-                <div className="navbar-container">
-                    <Link to="/SPDashboard" className="navbar-logo">TEMPSTAY</Link>
-                    <div className="nav-options">
-                        <Link to="/addhotel" className="nav-link" onClick={handleCloseUserMenu}>Add Hotel</Link>
-                        <Link to="/viewSPHotel" className="nav-link" onClick={handleCloseUserMenu}>View Bookings</Link>
-                        <Link to="/hotelInfo" className="nav-link" onClick={handleCloseUserMenu}>Update Hotel</Link>
-                        <Link to="/addimages" className="nav-link" onClick={handleCloseUserMenu}>Add Images</Link> {/* New Link */}
+            <nav className="bg-indigo-600 p-4 shadow-md">
+                <div className="container mx-auto flex items-center justify-between">
+                    <Link to="/SPDashboard" className="text-white text-2xl font-bold">TEMPSTAY</Link>
+                    <div className="flex space-x-6 text-white"> {/* Increased spacing between links and added text color */}
+                        <Link to="/addhotel" className="hover:text-indigo-200">Add Hotel</Link>
+                        <Link to="/viewSPHotel" className="hover:text-indigo-200">View Bookings</Link>
+                        <Link to="/hotelInfo" className="hover:text-indigo-200">Update Hotel</Link>
+                        <Link to="/addimages" className="hover:text-indigo-200">Add Images</Link>
                     </div>
 
-                    <Box sx={{ flexGrow: 0, ml: 100 }}>
+                    <Box sx={{ flexGrow: 0, ml: 4 }}> {/* Added margin-left for spacing */}
                         <Tooltip title="User Settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                 <Avatar src={userIcon} alt="User Icon" />
                             </IconButton>
-                        </Tooltip >
+                        </Tooltip>
                         <Menu
                             sx={{ mt: '45px' }}
                             id="menu-appbar"
@@ -87,6 +87,7 @@ const SPDashboard = () => {
                     </Box>
                 </div>
             </nav>
+
 
             <div className="dashboard-content">
                 {/* Dashboard content goes here */}
