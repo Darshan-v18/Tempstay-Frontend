@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import Cookies from "js-cookie";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const ServiceProviderRegister = () => {
   const [userName, setUserName] = useState("");
@@ -63,7 +65,7 @@ const ServiceProviderRegister = () => {
       console.log("Response:", response.data);
       console.log("User successfully registered.");
       Cookies.set("token", response.data.token, { expires: 7 });
-       // Log registration success state
+      // Log registration success state
       history.push("/login");
     } catch (error) {
       if (error.response && error.response.status === 400) {
@@ -73,12 +75,24 @@ const ServiceProviderRegister = () => {
       }
     }
   };
+
+
+
+  const handleBack = () => {
+    window.history.back();
+  };
+
   return (
     <div className="min-h-screen bg-cover" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")' }}>
       <nav className="bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-center h-16">
-            <div className="flex-shrink-0 flex items-center">
+            <div className="flex-shrink-0 flex items-center">     <button
+              onClick={handleBack}
+              className="absolute left-4 text-white text-xl font-medium focus:outline-none hover:text-indigo-500 hover:scale-110 transition duration-200"
+            >
+              <FontAwesomeIcon icon={faArrowLeft} />
+            </button>
               <span className="text-white text-xl font-bold">TEMPSTAY</span>
             </div>
           </div>

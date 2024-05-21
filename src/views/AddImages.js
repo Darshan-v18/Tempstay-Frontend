@@ -6,7 +6,8 @@ import Container from '@mui/material/Container';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Cookies from 'js-cookie'; // Import Cookies module
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 const AddImages = () => {
     const [selectedFiles, setSelectedFiles] = useState([]);
     const history = useHistory();
@@ -41,20 +42,29 @@ const AddImages = () => {
         }
     };
 
+
+    const handleBack = () => {
+        window.history.back();
+    };
+
     return (
         <div style={{ paddingTop: '64px' }}> {/* Adjust the top padding to account for the height of the app bar (64px) */}
             <AppBar position="fixed">
-                <Container maxWidth="xl">
-                    <Toolbar sx={{ justifyContent: 'space-between' }}>
-                        <Typography variant="h6">
-                            Upload Images
-                        </Typography>
-                        <Typography variant="h5">
-                            TEMPSTAY
-                        </Typography>
-                        <div></div> {/* This empty div helps to push TEMPSTAY to the center */}
-                    </Toolbar>
-                </Container>
+                <Toolbar>
+                    <button
+                        onClick={handleBack}
+                        className="absolute left-4 text-white text-xl font-medium focus:outline-none hover:text-indigo-500 hover:scale-110 transition duration-200"
+                    >
+                        <FontAwesomeIcon icon={faArrowLeft} />
+                    </button>
+                    <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
+                        Add Images
+                    </Typography>
+                    <Typography variant="h5" >
+                        TEMPSTAY
+                    </Typography>
+                    <div></div>
+                </Toolbar>
             </AppBar>
             <div className="flex justify-center items-center h-full">
                 <div className="w-full max-w-md">

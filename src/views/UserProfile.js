@@ -3,7 +3,8 @@ import { useHistory } from 'react-router-dom'; // Import useHistory hook
 import axios from 'axios'; // Import axios for making API requests
 import "./SPProfile.css";
 import Cookies from 'js-cookie';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 const UserProfile = () => {
     // State variables to hold user information
     const [userName, setusername] = useState('');
@@ -42,7 +43,7 @@ const UserProfile = () => {
                 {
                     userName,
                     phoneNumber,
-             
+
                 },
                 {
                     headers: {
@@ -63,11 +64,21 @@ const UserProfile = () => {
         }
     };
 
+
+    const handleBack = () => {
+        window.history.back();
+    };
     return (
         <div className="min-h-screen bg-cover" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")' }}>
             <nav className="bg-gray-800">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-center h-16">
+                        <button
+                            onClick={handleBack}
+                            className="absolute left-4 text-white text-xl font-medium focus:outline-none hover:text-indigo-500 hover:scale-110 transition duration-200"
+                        >
+                            <FontAwesomeIcon icon={faArrowLeft} />
+                        </button>
                         <span className="text-white text-xl font-bold">TEMPSTAY</span>
                     </div>
                 </div>

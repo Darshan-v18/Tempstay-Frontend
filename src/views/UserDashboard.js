@@ -139,7 +139,7 @@ function ResponsiveAppBar() {
       Cookies.remove('token');
       Cookies.remove('userType');
       history.push('/login');
-    } else if (setting === 'Profile') {
+    } else if (setting === 'Edit Profile') {
       history.push('/UserProfile');
     }
   };
@@ -364,7 +364,7 @@ function ResponsiveAppBar() {
                       Hotel Address: {hotel.address}
                     </Typography>
                     <Typography variant="body1" sx={{ mr: 4 }}>
-                    Rating:
+                      Rating:
                       <Rating
                         readonly
                         initialRating={hotel.rating}

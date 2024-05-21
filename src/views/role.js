@@ -1,5 +1,8 @@
 import React from 'react';
 import './role.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+
 
 const Role = (props) => {
   const nav = (path) => {
@@ -18,13 +21,29 @@ const Role = (props) => {
     nav('/UserRegister');
   };
 
+
+  const handleBack = () => {
+    window.history.back();
+  };
+
   return (
     <div className='roledashboard'>
       <div className="login-nav">
-        <div className="home-nav">
-          <span className="logo" style={{ color: 'navy' }}>TEMPSTAY</span>
-          <div data-thq="thq-close-menu" className="home-close-menu"></div>
-        </div>
+        
+          <nav className="bg-gray-800 relative">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex items-center justify-center h-16">
+                <button
+                  onClick={handleBack}
+                  className="absolute left-4 text-white text-xl font-medium focus:outline-none hover:text-indigo-500 hover:scale-110 transition duration-200"
+                >
+                  <FontAwesomeIcon icon={faArrowLeft} />
+                </button>
+                <span className="text-white text-xl font-bold">TEMPSTAY</span>
+              </div>
+            </div>
+          </nav>
+     
       </div>
       <div className="container-wrapper">
         <div className="user-container">

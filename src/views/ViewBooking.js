@@ -14,7 +14,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
 import Rating from '@mui/material/Rating';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 function ViewBookings() {
   const [userBookings, setUserBookings] = useState([]);
@@ -57,7 +58,7 @@ function ViewBookings() {
           role: Cookies.get('userType'),
         },
       });
-      
+
       console.log(response.data);
       setUserBookings(response.data);
     } catch (error) {
@@ -170,12 +171,21 @@ function ViewBookings() {
     setCheckOutDate(nextDay.toISOString().split('T')[0]);
   };
 
+  const handleBack = () => {
+    window.history.back();
+  };
 
   return (
     <Box>
       <AppBar position="fixed">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <button
+            onClick={handleBack}
+            className="absolute left-4 text-white text-xl font-medium focus:outline-none hover:text-indigo-500 hover:scale-110 transition duration-200"
+          >
+            <FontAwesomeIcon icon={faArrowLeft} />
+          </button>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
             View Bookings
           </Typography>
           <Typography variant="h5" >

@@ -13,6 +13,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const ServiceProviderHotelInfo = () => {
     const [roomDetails, setRoomDetails] = useState([]);
@@ -80,20 +82,31 @@ const ServiceProviderHotelInfo = () => {
         setOpenSuccessDialog(false);
     };
 
+
+    const handleBack = () => {
+        window.history.back();
+    };
+
+
+
     return (
         <div>
             <AppBar position="fixed">
-                <Container maxWidth="xl">
-                    <Toolbar sx={{ justifyContent: 'space-between' }}>
-                        <Typography variant="h6">
-                            HOTEL DETAILS
-                        </Typography>
-                        <Typography variant="h5">
-                            TEMPSTAY
-                        </Typography>
-                        <div></div>
-                    </Toolbar>
-                </Container>
+                <Toolbar>
+                    <button
+                        onClick={handleBack}
+                        className="absolute left-4 text-white text-xl font-medium focus:outline-none hover:text-indigo-500 hover:scale-110 transition duration-200"
+                    >
+                        <FontAwesomeIcon icon={faArrowLeft} />
+                    </button>
+                    <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
+                        Update Hotel
+                    </Typography>
+                    <Typography variant="h5" >
+                        TEMPSTAY
+                    </Typography>
+                    <div></div>
+                </Toolbar>
             </AppBar>
             {roomDetails.map((room, index) => (
                 <Container key={index} maxWidth="md" sx={{ marginTop: '80px', padding: '20px', backgroundColor: index % 2 === 0 ? '#f0f0f0' : '#e0e0e0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
