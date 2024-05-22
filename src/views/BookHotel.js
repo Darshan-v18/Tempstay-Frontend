@@ -14,7 +14,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import { Cookie } from '@mui/icons-material';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const roomTypes = [
   { value: 'single', label: 'Single' },
@@ -115,23 +116,31 @@ function BookHotel() {
     setCheckOutDate(nextDay.toISOString().split('T')[0]);
   };
 
+  const handleBack = () => {
+    window.history.back();
+  };
 
 
   return (
     <>
       <AppBar position="fixed">
-        <Container maxWidth="xl">
-          <Toolbar sx={{ justifyContent: 'space-between' }}>
-            <Typography variant="h6">
-              Book Hotel
-            </Typography>
-            <Typography variant="h5">
-              TEMPSTAY
-            </Typography>
-            <div></div> {/* This empty div helps to push TEMPSTAY to the center */}
-          </Toolbar>
-        </Container>
+        <Toolbar>
+          <button
+            onClick={handleBack}
+            className="absolute left-4 text-white text-xl font-medium focus:outline-none hover:text-indigo-500 hover:scale-110 transition duration-200"
+          >
+            <FontAwesomeIcon icon={faArrowLeft} />
+          </button>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
+            BookHotel
+          </Typography>
+          <Typography variant="h5" >
+            TEMPSTAY
+          </Typography>
+          <div></div>
+        </Toolbar>
       </AppBar>
+
 
       <Container maxWidth="md" sx={{ marginTop: '80px', padding: '20px' }}>
         <Typography variant="h4" component="h2" gutterBottom>
