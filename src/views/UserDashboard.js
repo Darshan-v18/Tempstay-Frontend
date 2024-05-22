@@ -14,14 +14,13 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import AdbIcon from '@mui/icons-material/Adb';
-import ViewBookings from './ViewBooking';
-import BookHotel from './BookHotel';
+import Carousel from 'react-material-ui-carousel';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import Rating from 'react-rating';
 import Star from '@mui/icons-material/Star';
 import StarBorder from '@mui/icons-material/StarBorder';
-
+import ImageCarousel from './ImageCarousel';
 
 const pages = ['View Booking'];
 const settings = ['Edit Profile', 'Logout'];
@@ -30,6 +29,7 @@ function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [hotels, setHotels] = useState([]);
+  const [hotelImages, setHotelImages] = useState({});
   const history = useHistory();
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredHotels, setFilteredHotels] = useState([]);
@@ -93,20 +93,20 @@ function ResponsiveAppBar() {
       setHotels(response.data); // Store fetched data in state
 
 
-      const hotelsWithImages = await Promise.all(response.data.map(async hotel => {
-        // Make API request to fetch images for the current hotel
-        const imageResponse = await axios.get('http://localhost:9030/api/getimagesbyhotelid', {
-          headers: {
-            hotelownId: hotel.id,
-          },
-        });
-        console.log(imageResponse.data);
-        // Merge the fetched images with the current hotel object
-        return { ...hotel, images: imageResponse.data };
-      }));
+      const imagePromises = response.data.map(hotel =>
+        axios.get('http://localhost:9030/api/getimagesbyhotelid', {
+          headers: { hotelownId: hotel.id }
+        })
+      );
 
-      // Update state with hotels including images
-      setHotels(hotelsWithImages);
+      const imageResponses = await Promise.all(imagePromises);
+      const images = imageResponses.reduce((acc, imageResponse, index) => {
+        acc[response.data[index].id] = imageResponse.data;
+        return acc;
+      }, {});
+
+      console.log('Images:', images);
+      setHotelImages(images);
 
     } catch (error) {
       console.error('Error fetching hotel data:', error);
@@ -182,7 +182,7 @@ function ResponsiveAppBar() {
     >
       <Box sx={{ position: 'relative' }}>
         <AppBar position="fixed">
-          <Container maxWidth="xl">
+          <Container maxWidth="2xl">
             <Toolbar disableGutters>
               <Typography
                 variant="h6"
@@ -329,7 +329,7 @@ function ResponsiveAppBar() {
             </Toolbar>
           </Container>
         </AppBar>
-        <Container maxWidth="md" sx={{ marginTop: '80px', padding: '20px', backgroundColor: 'rgba(255, 255, 255, 0.8)' }}>
+        <Container maxWidth="xl" sx={{ marginTop: '62px', padding: '40px', backgroundColor: 'rgba(255, 255, 255, 0.8)' }}>
           <Typography variant="h4" component="h2" gutterBottom>
             Explore Hotels
           </Typography>
@@ -346,24 +346,22 @@ function ResponsiveAppBar() {
                   marginBottom: '10px',
                 }}
               >
+
+
+
                 <Box display="flex" alignItems="center">
-                  {hotel.images && hotel.images.length > 0 && (
-                    <img
-                      src={hotel.images[0].imageURL} // Display the first image URL if images array is defined and not empty
-                      alt={hotel.hotelName}
-                      width={300}
-                      height={300}
-                      style={{ marginRight: '20px', borderRadius: '5px' }}
-                    />
+                  {hotelImages[hotel.id] && hotelImages[hotel.id].length > 0 && (
+                    <ImageCarousel images={hotelImages[hotel.id].map(image => image.imageURL)} />
                   )}
-                  <Box>
-                    <Typography variant="h6" component="h3">
+
+                  <Box sx={{ textAlign: 'left', ml: 4 }}>
+                    <Typography variant="h5" component="h3" sx={{ fontSize: '26px', }}>
                       {hotel.hotelName}
                     </Typography>
-                    <Typography variant="body1" sx={{ mr: 4 }}>
+                    <Typography variant="body1" sx={{ mr: 4, fontSize: '22px', }}>
                       Hotel Address: {hotel.address}
                     </Typography>
-                    <Typography variant="body1" sx={{ mr: 4 }}>
+                    <Typography variant="body1" sx={{ mr: 4, fontSize: '22px', }}>
                       Rating:
                       <Rating
                         readonly
@@ -372,7 +370,7 @@ function ResponsiveAppBar() {
                         fullSymbol={<Star />}
                       />
                     </Typography>
-                    <Typography variant="body1">phoneNumber: {hotel.phoneNumber}</Typography>
+                    <Typography variant="body1" sx={{ mr: 4, fontSize: '22px', }}>phoneNumber: {hotel.phoneNumber}</Typography>
                   </Box>
                 </Box>
                 <Button variant="contained" onClick={() => handleBookHotel(hotel.id)}>
