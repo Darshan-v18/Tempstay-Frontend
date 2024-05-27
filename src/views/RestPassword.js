@@ -6,7 +6,8 @@ import Cookies from "js-cookie";
 import "./ForgotPassword.css";
 import Showotpforgot from "./OTPforgot";
 import OTPforgot from "./OTPforgot";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 const ForgotPassword = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,7 +27,7 @@ const ForgotPassword = (props) => {
   const handleResetSuccess = () => {
     nav("/login");
   };
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -35,8 +36,8 @@ const ForgotPassword = (props) => {
       console.log(email, userType, password);
       // Make POST request to backend API using Axios\
       const response = await axios.post(
-        "http://localhost:9030/api/resetpassword",{
-        },
+        "http://localhost:9030/api/resetpassword", {
+      },
         {
           headers: {
             "Content-Type": "application/json",
@@ -48,11 +49,11 @@ const ForgotPassword = (props) => {
       );
 
 
-       handleResetSuccess();
+      handleResetSuccess();
       // Check if request was successful
       console.log("Response:", response.data); // Log the response data
       setSuccessMessage("OTP sent to your email.");
-      
+
 
     } catch (error) {
       console.log(error);
@@ -68,15 +69,26 @@ const ForgotPassword = (props) => {
   const handleUserTypeChange = (event) => {
     setUserType(event.target.value);
   };
-  
+
+  const handleBack = () => {
+    nav('/login');
+  };
+
   return (
     <div className="forgot-password-page">
-      <div className="login-nav">
-        <div className="home-nav">
-          <span className="logo">TEMPSTAY</span>
-          <div data-thq="thq-close-menu" className="home-close-menu"></div>
+      <nav className="bg-gray-800 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-center h-16">
+            <button
+              onClick={handleBack}
+              className="absolute left-4 text-white text-xl font-medium focus:outline-none hover:text-indigo-500 hover:scale-110 transition duration-200"
+            >
+              <FontAwesomeIcon icon={faArrowLeft} />
+            </button>
+            <span className="text-white text-xl font-bold">TEMPSTAY</span>
+          </div>
         </div>
-      </div>
+      </nav>
       <div className="forgot-password-container">
         <h1>Reset Password</h1>
         <form onSubmit={handleSubmit}>

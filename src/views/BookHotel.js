@@ -61,19 +61,19 @@ function BookHotel() {
       const roomId = response1.data;
       console.log(roomId);
 
-      const availabilityResponse = await axios.post('http://localhost:9030/api/checkroom', {
-        hotelownId: Cookies.get('ownerID'),
-        roomId,
-      });
+      // const availabilityResponse = await axios.post('http://localhost:9030/api/checkroom', {
+      //   hotelownId: Cookies.get('ownerID'),
+      //   roomId,
+      // });
 
-      const isRoomAvailable = availabilityResponse.data.message;
-      console.log(isRoomAvailable);
-      if (isRoomAvailable == 'No Rooms Available') {
-        // Handle case when room is not available
-        console.log('The selected room is not available for the specified dates.');
-        setOpenDialog(true);
-        return;
-      }
+      // const isRoomAvailable = availabilityResponse.data.message;
+      // console.log(isRoomAvailable);
+      // if (isRoomAvailable == 'no Rooms available') {
+      //   // Handle case when room is not available
+      //   console.log('The selected room is not available for the specified dates.');
+      //   setOpenDialog(true);
+      //   return;
+      // }
 
       const response = await axios.post('http://localhost:9030/api/bookroom', {
         hotelownId: Cookies.get('ownerID'),
@@ -132,7 +132,7 @@ function BookHotel() {
             <FontAwesomeIcon icon={faArrowLeft} />
           </button>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
-            BookHotel
+            BookHotel 
           </Typography>
           <Typography variant="h5" >
             TEMPSTAY
@@ -231,7 +231,7 @@ function BookHotel() {
         <DialogTitle>Booking Success</DialogTitle>
         <DialogContent>
           <Typography variant="body1">
-            Your booking has been confirmed successfully.
+            Your booking has been confirmed successfully 
           </Typography>
         </DialogContent>
         <DialogActions>

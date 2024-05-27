@@ -370,7 +370,7 @@ function ResponsiveAppBar() {
                         fullSymbol={<Star />}
                       />
                     </Typography>
-                    <Typography variant="body1" sx={{ mr: 4, fontSize: '22px', }}>phoneNumber: {hotel.phoneNumber}</Typography>
+                    <Typography variant="body1" sx={{ mr: 4, fontSize: '22px', }}>Phone Number: {hotel.phoneNumber}</Typography>
                   </Box>
                 </Box>
                 <Button variant="contained" onClick={() => handleBookHotel(hotel.id)}>

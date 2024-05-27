@@ -6,12 +6,17 @@ import Cookies from "js-cookie";
 import "./ForgotPassword.css";
 import Showotpforgot from "./OTPforgot";
 import OTPforgot from "./OTPforgot";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import Stack from '@mui/material/Stack';
+import CircularProgress from '@mui/material/CircularProgress';
+import { Cookie } from "@mui/icons-material";
 const ForgotPassword = (props) => {
   const [email, setEmail] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [userType, setUserType] = useState("");
   const [Showotpforgot, setShowOTPPopup] = useState(false);
+  const [loading, setLoading] = useState(false);
 
 
   const nav = (path) => {
@@ -31,12 +36,13 @@ const ForgotPassword = (props) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const users=Cookies.get("userType");
+    const users = Cookies.get("userType");
     console.log(users)
-    if(users=="serviceprovider"){
-      nav("/ResetPassword");
-      return;
-    }
+    // if (users == "serviceprovider") {
+    //   nav("/ResetPassword");
+    //   return;
+    // }
+    setLoading(true);
     try {
 
       console.log(Cookies.get("userType"));
@@ -53,7 +59,7 @@ const ForgotPassword = (props) => {
         }
       );
 
-
+      Cookies.set("email", email);
       handleLoginSuccess();
       // Check if request was successful
       console.log("Response:", response.data); // Log the response data
@@ -64,6 +70,9 @@ const ForgotPassword = (props) => {
       console.log(error);
       // Set error message
       // setErrorMessage("Failed to send OTP. Please try again.");
+    }
+    finally {
+      setLoading(false); // Set loading state to false after the request is completed
     }
   };
 
@@ -77,35 +86,51 @@ const ForgotPassword = (props) => {
     setShowOTPPopup(false);
   };
 
+  const handleBack = () => {
+    history.back();
+  };
 
   return (
     <div className="forgot-password-page">
-      <div className="login-nav">
-        <div className="home-nav">
-          <span className="logo">TEMPSTAY</span>
-          <div data-thq="thq-close-menu" className="home-close-menu"></div>
-        </div>
-      </div>
-      <div className="forgot-password-container">
-        <h1>Forgot Password!!</h1>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="email">Email address:</label>
-            <input
-              type="email"
-              id="email"
-              className="form-control"
-              value={email}
-              onChange={handleEmailChange}
-              required
-            />
+      <nav className="bg-gray-800 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-center h-16">
+            <button
+              onClick={handleBack}
+              className="absolute left-4 text-white text-xl font-medium focus:outline-none hover:text-indigo-500 hover:scale-110 transition duration-200"
+            >
+              <FontAwesomeIcon icon={faArrowLeft} />
+            </button>
+            <span className="text-white text-xl font-bold">TEMPSTAY</span>
           </div>
-          <button type="submit" className="btn btn-primary">
-            Submit
-          </button>
-        </form>
-        <div>{Showotpforgot && <OTPforgot onSubmit={handleOTPSubmit} onClose={handleCloseOTPPopup} />}</div>
-      </div>
+        </div>
+      </nav>
+      {loading ? (
+        <Stack sx={{ color: 'grey.500' }} spacing={2} direction="row" justifyContent="center">
+          <CircularProgress color="secondary" />
+        </Stack>
+      ) : (
+
+        <div className="forgot-password-container">
+          <h1>Forgot Password!!</h1>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="email">Email address:</label>
+              <input
+                type="email"
+                id="email"
+                className="form-control"
+                value={email}
+                onChange={handleEmailChange}
+                required
+              />
+            </div>
+            <button type="submit" className="btn btn-primary">
+              Submit
+            </button>
+          </form>
+          <div>{Showotpforgot && <OTPforgot onSubmit={handleOTPSubmit} onClose={handleCloseOTPPopup} />}</div>
+        </div>)}
     </div>
   );
 };
