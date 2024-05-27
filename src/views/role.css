@@ -26,9 +26,9 @@
 }
 
 .btn-primary {
-    background-color: #35452B;
+    background-color: #4F46E5;
     color: #fff;
-    border: 2px solid #35452B; /* Add border */
+    border: 2px solid #4F46E5; /* Add border */
     border-radius: 5px;
     padding: 10px 20px; 
     cursor: pointer;
@@ -37,7 +37,7 @@
 }
 
 .btn-primary:hover {
-    background-color: #727D6B;
+    background-color: #2272b4;
     border-color: #727D6B;
     color: #fff; /* Change text color on hover */
 }

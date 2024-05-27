@@ -12,6 +12,7 @@ const OTPforgot = ({ onSubmit, onClose }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+      console.log(Cookies.get("email"));
       // Make a request to verify the OTP
       const response = await axios.post(
         `http://localhost:9030/api/verifyOtpforforgotpassword`,

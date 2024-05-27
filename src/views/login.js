@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./login.css";
 import ForgotPassword from "./ForgotPassword";
 import axios from "axios";
@@ -36,6 +36,7 @@ const Login = (props) => {
   };
 
   const handleForgotPassword = () => {
+    console.log("userType", userType);
     Cookies.set("userType", userType);
     nav("/ForgotPassword");
   };
@@ -55,6 +56,7 @@ const Login = (props) => {
     }
     setLoginSuccess(true);
   };
+
   const validatePassword = (password) => {
     // Check if the password length is at least 6 characters
     if (password.length < 6) {
@@ -72,7 +74,6 @@ const Login = (props) => {
     }
     return true;
   };
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
