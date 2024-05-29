@@ -33,19 +33,17 @@ function ResponsiveAppBar() {
   const history = useHistory();
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredHotels, setFilteredHotels] = useState([]);
+  const [fetchCount, setFetchCount] = useState(0);
+
 
   console.log(Cookies.get("token"));
   console.log(Cookies.get("userType"));
 
   useEffect(() => {
-    // Fetch hotel data when component mounts
+  
     fetchHotels();
-  }, []); // Empty dependency array ensures the effect runs only once
-
-
-
-
-
+ 
+  }, []);
 
 
 
@@ -69,14 +67,30 @@ function ResponsiveAppBar() {
     handleSearch();
   };
 
-  // const handleSearch = () => {
-  //   // Filter hotels based on the search query
-  //   const filtered = hotels.filter(hotel =>
-  //     hotel.hotelName.toLowerCase().includes(searchQuery.toLowerCase())
-  //   );
-  //   setFilteredHotels(filtered);
-  //   // setSearchQuery('');
-  // };
+
+  const fetchHotelImages = async (hotelIds) => {
+    try {
+      // Clear previous images
+      setHotelImages({});
+
+      const imagePromises = hotelIds.map((id) =>
+        axios.get('http://localhost:9030/api/getimagesbyhotelid', {
+          headers: { hotelownId: id },
+        })
+      );
+
+      const imageResponses = await Promise.all(imagePromises);
+      const images = imageResponses.reduce((acc, imageResponse, index) => {
+        acc[hotelIds[index]] = imageResponse.data;
+        return acc;
+      }, {});
+
+      console.log('Images:', images);
+      setHotelImages(images);
+    } catch (error) {
+      console.error('Error fetching hotel images:', error);
+    }
+  };
 
 
   const fetchHotels = async () => {
@@ -89,29 +103,16 @@ function ResponsiveAppBar() {
         },
       });
       console.log(response.data);
-      Cookies.set("ownerID", response.data.id, { expires: 7 })
+      Cookies.set('ownerID', response.data.id, { expires: 7 });
       setHotels(response.data); // Store fetched data in state
 
-
-      const imagePromises = response.data.map(hotel =>
-        axios.get('http://localhost:9030/api/getimagesbyhotelid', {
-          headers: { hotelownId: hotel.id }
-        })
-      );
-
-      const imageResponses = await Promise.all(imagePromises);
-      const images = imageResponses.reduce((acc, imageResponse, index) => {
-        acc[response.data[index].id] = imageResponse.data;
-        return acc;
-      }, {});
-
-      console.log('Images:', images);
-      setHotelImages(images);
-
+      const hotelIds = response.data.map((hotel) => hotel.id);
+      fetchHotelImages(hotelIds);
     } catch (error) {
       console.error('Error fetching hotel data:', error);
     }
   };
+
   const nav = (path) => {
     // Your navigation logic here
     window.location.href = path;
