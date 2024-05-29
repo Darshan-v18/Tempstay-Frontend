@@ -32,7 +32,7 @@ function BookHotel() {
   const [numberOfRooms, setNumberOfRooms] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
   const [openSuccessDialog, setOpenSuccessDialog] = useState(false);
-
+  const [errorMessage, setErrorMessage] = useState('');
 
 
   console.log(Cookies.get("ownerID"));
@@ -61,19 +61,6 @@ function BookHotel() {
       const roomId = response1.data;
       console.log(roomId);
 
-      // const availabilityResponse = await axios.post('http://localhost:9030/api/checkroom', {
-      //   hotelownId: Cookies.get('ownerID'),
-      //   roomId,
-      // });
-
-      // const isRoomAvailable = availabilityResponse.data.message;
-      // console.log(isRoomAvailable);
-      // if (isRoomAvailable == 'no Rooms available') {
-      //   // Handle case when room is not available
-      //   console.log('The selected room is not available for the specified dates.');
-      //   setOpenDialog(true);
-      //   return;
-      // }
 
       const response = await axios.post('http://localhost:9030/api/bookroom', {
         hotelownId: Cookies.get('ownerID'),
@@ -90,16 +77,28 @@ function BookHotel() {
 
       const { priceToBePaid } = response.data;
       console.log('Price to be paid:', priceToBePaid);
-
       // Show alert message with the amount to be paid
       alert(`Amount to be paid is ${priceToBePaid}`);
 
       setOpenSuccessDialog(true);
 
     } catch (error) {
-      const numberRooms = numberOfRooms
       console.error('Error handling book hotel:', error);
-      alert(`${numberRooms} Rooms not Available, please try less number of rooms.`);
+
+      // Extract available rooms and set the error message
+      let errorMsg = 'An unexpected error occurred. Please try again later.';
+      if (error.response && error.response.data) {
+        const { message, availableRooms } = error.response.data;
+        if (message) {
+          errorMsg = message;
+        }
+        if (availableRooms !== undefined) {
+          errorMsg += ` ${availableRooms} rooms are available for the specified dates.`;
+        }
+      }
+
+      setErrorMessage(errorMsg);
+      setOpenDialog(true);
     }
   };
 
@@ -117,7 +116,7 @@ function BookHotel() {
   };
 
   const handleBack = () => {
-    window.history.back();
+    history.push('/UserDashboard');
   };
 
 
@@ -132,7 +131,7 @@ function BookHotel() {
             <FontAwesomeIcon icon={faArrowLeft} />
           </button>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
-            BookHotel 
+            BookHotel
           </Typography>
           <Typography variant="h5" >
             TEMPSTAY
@@ -219,7 +218,7 @@ function BookHotel() {
         <DialogTitle>No Room Available</DialogTitle>
         <DialogContent>
           <Typography variant="body1">
-            Unfortunately, there are no rooms available for the selected dates.
+            {errorMessage}
           </Typography>
         </DialogContent>
         <DialogActions>
@@ -231,7 +230,7 @@ function BookHotel() {
         <DialogTitle>Booking Success</DialogTitle>
         <DialogContent>
           <Typography variant="body1">
-            Your booking has been confirmed successfully 
+            Your booking has been confirmed successfully
           </Typography>
         </DialogContent>
         <DialogActions>
