@@ -57,31 +57,10 @@ const Login = (props) => {
     setLoginSuccess(true);
   };
 
-  const validatePassword = (password) => {
-    // Check if the password length is at least 6 characters
-    if (password.length < 6) {
-      return false;
-    }
-    // Check if the password contains at least one special character
-    const specialChars = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
-    if (!specialChars.test(password)) {
-      return false;
-    }
-    // Check if the password contains at least one number
-    const numbers = /[0-9]/;
-    if (!numbers.test(password)) {
-      return false;
-    }
-    return true;
-  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
-    if (!validatePassword(password)) {
-      setErrorMessage("Password must be at least 6 characters long and contain at least one special character and one number.");
-      return;
-    }
 
     const userData = {
       email,
@@ -89,6 +68,7 @@ const Login = (props) => {
     };
 
     try {
+
       const response = await axios.post(
         "http://localhost:9030/api/login",
         userData,
