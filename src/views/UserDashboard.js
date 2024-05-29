@@ -40,9 +40,9 @@ function ResponsiveAppBar() {
   console.log(Cookies.get("userType"));
 
   useEffect(() => {
-  
+
     fetchHotels();
- 
+
   }, []);
 
 
@@ -381,6 +381,8 @@ function ResponsiveAppBar() {
             ))}
           </Box>
         </Container>
+
+      
       </Box>
     </Box>
   );

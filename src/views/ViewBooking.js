@@ -20,12 +20,11 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 function ViewBookings() {
   const history = useHistory();
+  const [openDialog, setOpenDialog] = useState(false);
   const [userBookings, setUserBookings] = useState([]);
   const [editingBooking, setEditingBooking] = useState(null);
-  // const [checkinDate, setCheckinDate] = useState('');
   const [checkinDate, setCheckInDate] = useState('');
   const [checkoutDate, setCheckOutDate] = useState('');
-  // const [checkoutDate, setCheckoutDate] = useState('');
   const [numberOfRooms, setNumberOfRooms] = useState('');
   const [open, setOpen] = useState(false);
   const [editedBooking, setEditedBooking] = useState(null);
@@ -33,6 +32,7 @@ function ViewBookings() {
   const [bookingIdToCancel, setBookingIdToCancel] = useState(null);
   const [openRatingDialog, setOpenRatingDialog] = useState(false);
   const [selectedBookingId, setSelectedBookingId] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
   const [rating, setRating] = useState(0);
 
 
@@ -97,10 +97,26 @@ function ViewBookings() {
       // Update user bookings after editing
       fetchUserBookings();
       setEditingBooking(null);
+
       alert("Booking updated Successfully");
       setOpen(false);
     } catch (error) {
-      console.error('Error editing booking:', error);
+      console.error('Error handling book hotel:', error);
+
+      // Extract available rooms and set the error message
+      let errorMsg = 'An unexpected error occurred. Please try again later.';
+      if (error.response && error.response.data) {
+        const { message, availableRooms } = error.response.data;
+        if (message) {
+          errorMsg = message;
+        }
+        if (availableRooms !== undefined) {
+          errorMsg += ` ${availableRooms} rooms are available for the specified dates.`;
+        }
+      }
+
+      setErrorMessage(errorMsg);
+      setOpenDialog(true);
     }
   };
 
@@ -315,6 +331,20 @@ function ViewBookings() {
           <Button onClick={handleSaveRating}>Save</Button>
         </DialogActions>
       </Dialog>
+
+
+      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+        <DialogTitle>No Room Available</DialogTitle>
+        <DialogContent>
+          <Typography variant="body1">
+            {errorMessage}
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenDialog(false)}>Close</Button>
+        </DialogActions>
+      </Dialog>
+
 
     </Box>
   );
