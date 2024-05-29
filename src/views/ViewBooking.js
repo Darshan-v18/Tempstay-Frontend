@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -18,6 +19,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 function ViewBookings() {
+  const history = useHistory();
   const [userBookings, setUserBookings] = useState([]);
   const [editingBooking, setEditingBooking] = useState(null);
   // const [checkinDate, setCheckinDate] = useState('');
@@ -172,7 +174,7 @@ function ViewBookings() {
   };
 
   const handleBack = () => {
-    window.history.back();
+    history.push('/UserDashboard');
   };
 
   return (
