@@ -77,10 +77,17 @@ function BookHotel() {
 
       const { priceToBePaid } = response.data;
       console.log('Price to be paid:', priceToBePaid);
-      // Show alert message with the amount to be paid
-      alert(`Amount to be paid is ${priceToBePaid}`);
+      if (response.data.success === false) {
+        setErrorMessage("No rooms available for the specified dates");
+        setOpenDialog(true);
+      } else {
 
-      setOpenSuccessDialog(true);
+        // Show alert message with the amount to be paid
+        alert(`Amount to be paid is ${priceToBePaid}`);
+
+        setOpenSuccessDialog(true);
+      }
+
 
     } catch (error) {
       console.error('Error handling book hotel:', error);
@@ -89,12 +96,18 @@ function BookHotel() {
       let errorMsg = 'An unexpected error occurred. Please try again later.';
       if (error.response && error.response.data) {
         const { message, availableRooms } = error.response.data;
-        if (message) {
-          errorMsg = message;
+        console.log(message);
+        if (message == "Cannot invoke \"com.tempstay.tempstay.Models.HotelsDB.getRoomId()\" because \"hotels\" is null") {
+          errorMsg = "No rooms available for the specified dates";
+        } else {
+          if (message) {
+            errorMsg = message;
+          }
+          if (availableRooms !== undefined) {
+            errorMsg += ` ${availableRooms} rooms are available for the specified dates.`;
+          }
         }
-        if (availableRooms !== undefined) {
-          errorMsg += ` ${availableRooms} rooms are available for the specified dates.`;
-        }
+
       }
 
       setErrorMessage(errorMsg);
