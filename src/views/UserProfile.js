@@ -5,33 +5,52 @@ import "./SPProfile.css";
 import Cookies from 'js-cookie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+
 const UserProfile = () => {
-    // State variables to hold user information
-    const [userName, setusername] = useState('');
-    const [phoneNumber, setphoneNumber] = useState('');
+    const [openSuccessDialog, setOpenSuccessDialog] = useState(false);
+    const [userInfo, setUserInfo] = useState({
+        userName: '',
+        phoneNumber: '',
+    });
+
 
     // Access the history object using useHistory hook
     const history = useHistory();
 
-    // Function to fetch user information (e.g., from localStorage)
+    // Function to fetch user information 
     useEffect(() => {
-        // Fetch user information (replace with actual fetching logic)
-        const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-        if (userInfo) {
-            setusername(userInfo.username);
-            setphoneNumber(userInfo.phoneNumber);
-        }
+        getInfo();
     }, []);
 
-    // Function to handle hotel name change
-    const handleusernameChange = (e) => {
-        setusername(e.target.value);
+    const getInfo = async () => {
+        try {
+            const response = await axios.get("http://localhost:9030/api/getuserdetailsbytoken", {
+                headers: {
+                    Token: Cookies.get('token'),
+                    role: Cookies.get('userType'),
+                }
+            });
+            setUserInfo(response.data);
+        } catch (e) {
+            console.error("Error fetching user info:", e.message);
+        }
     };
 
-    // Function to handle address change
-    const handlephoneNumberChange = (e) => {
-        setphoneNumber(e.target.value);
+    // Function to handle input changes
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setUserInfo((prevUserInfo) => ({
+            ...prevUserInfo,
+            [name]: value,
+        }));
     };
+
 
 
     // Function to update user information and redirect to "/SPDashboard"
@@ -39,12 +58,7 @@ const UserProfile = () => {
         try {
             // Make API request to update user information
             const response = await axios.put(
-                "http://localhost:9030/api/updateuserdetails",
-                {
-                    userName,
-                    phoneNumber,
-
-                },
+                "http://localhost:9030/api/updateuserdetails", userInfo,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -55,9 +69,8 @@ const UserProfile = () => {
 
             // Handle successful response
             console.log("User information updated:", response.data);
+            setOpenSuccessDialog(true);
 
-            // Redirect to "/SPDashboard"
-            history.push('/UserDashboard');
         } catch (error) {
             // Handle error
             console.error("Error updating user information:", error.message);
@@ -84,17 +97,43 @@ const UserProfile = () => {
                 </div>
             </nav>
             <div className="user-profile-container">
-                <h2>User Profile Update</h2>
+                <h2>User Profile</h2>
                 <div>
                     <label>User Name:</label>
-                    <input type="text" value={userName} onChange={handleusernameChange} />
+                    <input
+                        type="text"
+                        name="userName"
+                        value={userInfo.userName}
+                        onChange={handleChange}
+                    />
                 </div>
                 <div>
-                    <label>phoneNumber:</label>
-                    <input type="text" value={phoneNumber} onChange={handlephoneNumberChange} />
+                    <label>Phone Number:</label>
+                    <input
+                        type="text"
+                        name="phoneNumber"
+                        value={userInfo.phoneNumber}
+                        onChange={handleChange}
+                    />
                 </div>
                 <button onClick={updateUserInformation}>Save</button>
             </div>
+
+            <Dialog open={openSuccessDialog} onClose={() => setOpenSuccessDialog(false)}>
+                <DialogTitle>Update Success</DialogTitle>
+                <DialogContent>
+                    <Typography variant="body1">
+                        User Info Changed Successfully
+                    </Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => {
+                        setOpenSuccessDialog(false);
+                        history.push('/UserDashboard');
+                    }}>Close</Button>
+                </DialogActions>
+            </Dialog>
+
         </div>
     );
 };
