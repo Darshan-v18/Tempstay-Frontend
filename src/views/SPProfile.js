@@ -5,39 +5,51 @@ import "./SPProfile.css";
 import Cookies from 'js-cookie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+
 const SPProfile = () => {
+    const [openSuccessDialog, setOpenSuccessDialog] = useState(false);
     // State variables to hold user information
-    const [hotelName, setHotelname] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [address, setAddress] = useState('');
+    const [userInfo, setUserInfo] = useState({
+        hotelName: '',
+        address: '',
+        phoneNumber: '',
+    });
 
     // Access the history object using useHistory hook
     const history = useHistory();
 
-    // Function to fetch user information (e.g., from localStorage)
     useEffect(() => {
-        // Fetch user information (replace with actual fetching logic)
-        const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-        if (userInfo) {
-            setHotelname(userInfo.username);
-            setPhoneNumber(userInfo.phoneNumber);
-            setAddress(userInfo.address);
-        }
+        getInfo();
     }, []);
 
-    // Function to handle hotel name change
-    const handleHotelnameChange = (e) => {
-        setHotelname(e.target.value);
+    // Function to fetch user information 
+    const getInfo = async () => {
+        try {
+            const response = await axios.get("http://localhost:9030/api/getuserdetailsbytoken", {
+                headers: {
+                    Token: Cookies.get('token'),
+                    role: Cookies.get('userType'),
+                }
+            });
+            setUserInfo(response.data);
+        } catch (e) {
+            console.error("Error fetching user info:", e.message);
+        }
     };
 
-    // Function to handle address change
-    const handleAddressChange = (e) => {
-        setAddress(e.target.value);
-    };
-
-    // Function to handle phone number change
-    const handlePhoneNumberChange = (e) => {
-        setPhoneNumber(e.target.value);
+    // Function to handle input changes
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setUserInfo((prevUserInfo) => ({
+            ...prevUserInfo,
+            [name]: value,
+        }));
     };
 
     // Function to update user information and redirect to "/SPDashboard"
@@ -46,11 +58,7 @@ const SPProfile = () => {
             // Make API request to update user information
             const response = await axios.put(
                 "http://localhost:9030/api/updatehotelownerdetails",
-                {
-                    hotelName,
-                    phoneNumber,
-                    address
-                },
+                userInfo,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -62,14 +70,12 @@ const SPProfile = () => {
             // Handle successful response
             console.log("User information updated:", response.data);
 
-            // Redirect to "/SPDashboard"
-            history.push('/SPDashboard');
+            setOpenSuccessDialog(true);
         } catch (error) {
             // Handle error
             console.error("Error updating user information:", error.message);
         }
     };
-
 
     const handleBack = () => {
         window.history.back();
@@ -94,18 +100,48 @@ const SPProfile = () => {
                 <h2>User Profile</h2>
                 <div>
                     <label>Hotel Name:</label>
-                    <input type="text" value={hotelName} onChange={handleHotelnameChange} />
+                    <input
+                        type="text"
+                        name="hotelName"
+                        value={userInfo.hotelName}
+                        onChange={handleChange}
+                    />
                 </div>
                 <div>
                     <label>Address:</label>
-                    <input type="text" value={address} onChange={handleAddressChange} />
+                    <input
+                        type="text"
+                        name="address"
+                        value={userInfo.address}
+                        onChange={handleChange}
+                    />
                 </div>
                 <div>
                     <label>Phone Number:</label>
-                    <input type="text" value={phoneNumber} onChange={handlePhoneNumberChange} />
+                    <input
+                        type="text"
+                        name="phoneNumber"
+                        value={userInfo.phoneNumber}
+                        onChange={handleChange}
+                    />
                 </div>
                 <button onClick={updateUserInformation}>Save</button>
             </div>
+            <Dialog open={openSuccessDialog} onClose={() => setOpenSuccessDialog(false)}>
+                <DialogTitle>Update Success</DialogTitle>
+                <DialogContent>
+                    <Typography variant="body1">
+                        Service Provider Info Changed Successfully
+                    </Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => {
+                        setOpenSuccessDialog(false);
+                        history.push('/SPDashboard');
+                    }}>Close</Button>
+                </DialogActions>
+            </Dialog>
+
         </div>
     );
 };

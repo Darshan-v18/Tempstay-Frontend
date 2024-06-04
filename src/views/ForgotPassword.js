@@ -11,13 +11,21 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import Stack from '@mui/material/Stack';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Cookie } from "@mui/icons-material";
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+
 const ForgotPassword = (props) => {
   const [email, setEmail] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [userType, setUserType] = useState("");
   const [Showotpforgot, setShowOTPPopup] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const [openDialog, setOpenDialog] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const nav = (path) => {
     // Your navigation logic here
@@ -68,8 +76,10 @@ const ForgotPassword = (props) => {
 
     } catch (error) {
       console.log(error);
-      // Set error message
-      // setErrorMessage("Failed to send OTP. Please try again.");
+      const mess="The Email is not valid"
+      setErrorMessage(mess);
+      setOpenDialog(true);
+
     }
     finally {
       setLoading(false); // Set loading state to false after the request is completed
@@ -131,6 +141,18 @@ const ForgotPassword = (props) => {
           </form>
           <div>{Showotpforgot && <OTPforgot onSubmit={handleOTPSubmit} onClose={handleCloseOTPPopup} />}</div>
         </div>)}
+
+        <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+        <DialogTitle>Invalid Email</DialogTitle>
+        <DialogContent>
+          <Typography variant="body1">
+            {errorMessage}
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenDialog(false)}>Close</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
