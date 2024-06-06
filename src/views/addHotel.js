@@ -36,7 +36,7 @@ const AddHotel = () => {
 
       console.log(data);
       // Make API request
-      const response = await axios.post('http://65.1.95.196:9030/api/uploadhotels',
+      const response = await axios.post('http://65.1.134.250:9030/api/uploadhotels',
         data
         , {
           headers: {

@@ -26,7 +26,7 @@ const AddImages = () => {
             }
 
             // Make API request to upload images
-            const response = await axios.post('http://65.1.95.196:9030/api/uploadimages', formData, {
+            const response = await axios.post('http://65.1.134.250:9030/api/uploadimages', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     token: Cookies.get('token'),

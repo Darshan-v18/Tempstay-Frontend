@@ -14,7 +14,7 @@ const OTPPopup = ({ onSubmit, onClose }) => {
     try {
       // Make a request to verify the OTP
       const response = await axios.post(
-        `http://65.1.95.196:9030/api/2factorauthentication`,
+        `http://65.1.134.250:9030/api/2factorauthentication`,
         {},
         {
           headers: {

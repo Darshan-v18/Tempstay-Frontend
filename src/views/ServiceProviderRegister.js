@@ -52,7 +52,7 @@ const ServiceProviderRegister = () => {
 
     try {
       const response = await axios.post(
-        "http://65.1.95.196:9030/api/adduser",
+        "http://65.1.134.250:9030/api/adduser",
         serviceProviderData,
         {
           headers: {

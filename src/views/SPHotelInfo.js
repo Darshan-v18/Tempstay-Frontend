@@ -30,7 +30,7 @@ const ServiceProviderHotelInfo = () => {
 
     const fetchRoomDetails = async () => {
         try {
-            const response = await axios.get('http://65.1.95.196:9030/api/getdetails', {
+            const response = await axios.get('http://65.1.134.250:9030/api/getdetails', {
                 headers: {
                     token: Cookies.get("token"),
                     role: Cookies.get("userType"),
@@ -60,7 +60,7 @@ const ServiceProviderHotelInfo = () => {
             console.log("price", price, "numberOfRoom", numberOfRoom);
             console.log("selectedRoom", selectedRoom.roomId);
             // Make API call to update room details
-            await axios.put('http://65.1.95.196:9030/api/updatehoteldetails', {
+            await axios.put('http://65.1.134.250:9030/api/updatehoteldetails', {
                 price,
                 numberOfRoom
             }, {
