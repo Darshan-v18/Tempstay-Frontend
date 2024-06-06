@@ -22,6 +22,7 @@ import Star from '@mui/icons-material/Star';
 import StarBorder from '@mui/icons-material/StarBorder';
 import ImageCarousel from './ImageCarousel';
 import userIcon from "../Images/Icons/usericon.jpg";
+import { API_BASE_URL } from '../constant';
 
 const pages = ['View Booking'];
 const settings = ['Edit Profile', 'Logout'];
@@ -51,7 +52,7 @@ function ResponsiveAppBar() {
   const handleSearch = async () => {
     try {
       // Make API request to fetch filtered hotels based on the search query
-      const response = await axios.get('http://65.1.95.196:9030/api/searchbyaddressandhotelname', {
+      const response = await axios.get(`${API_BASE_URL}/api/searchbyaddressandhotelname`, {
         headers: {
           searchItem: searchQuery,
         }
@@ -75,7 +76,7 @@ function ResponsiveAppBar() {
       setHotelImages({});
 
       const imagePromises = hotelIds.map((id) =>
-        axios.get('http://65.1.95.196:9030/api/getimagesbyhotelid', {
+        axios.get(`${API_BASE_URL}/api/getimagesbyhotelid`, {
           headers: { hotelownId: id },
         })
       );
@@ -97,7 +98,7 @@ function ResponsiveAppBar() {
   const fetchHotels = async () => {
     try {
       // Make API request to fetch hotel data
-      const response = await axios.get('http://65.1.95.196:9030/api/getallhotels', {
+      const response = await axios.get(`${API_BASE_URL}/api/getallhotels`, {
         headers: {
           token: Cookies.get('token'),
           role: Cookies.get('userType'),
@@ -154,7 +155,7 @@ function ResponsiveAppBar() {
   const handleBookHotel = async (hotelId) => {
     try {
       // Make API request to fetch hotel data
-      const response = await axios.get('http://65.1.95.196:9030/api/getallhotels', {
+      const response = await axios.get(`${API_BASE_URL}/api/getallhotels`, {
         headers: {
           token: Cookies.get('token'),
           role: Cookies.get('userType'),

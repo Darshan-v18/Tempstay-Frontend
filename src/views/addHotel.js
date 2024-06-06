@@ -9,6 +9,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';// Import Axios library for making HTTP requests
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { API_BASE_URL } from '../constant';
 const AddHotel = () => {
   const [roomType, setRoomType] = useState('');
   const [numRooms, setNumRooms] = useState('');
@@ -36,7 +37,7 @@ const AddHotel = () => {
 
       console.log(data);
       // Make API request
-      const response = await axios.post('http://65.1.95.196:9030/api/uploadhotels',
+      const response = await axios.post(`${API_BASE_URL}/api/uploadhotels`,
         data
         , {
           headers: {

@@ -16,6 +16,7 @@ import DialogActions from '@mui/material/DialogActions';
 import { Cookie } from '@mui/icons-material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { API_BASE_URL } from '../constant';
 
 const roomTypes = [
   { value: 'single', label: 'Single' },
@@ -49,7 +50,7 @@ function BookHotel() {
       console.log(selectedRoomType);
 
       // Make an HTTP request to fetch the room ID based on the selected room type
-      const response1 = await axios.get(`http://65.1.95.196:9030/api/getroomidbyhotelownidandroomtype`, {
+      const response1 = await axios.get(`${API_BASE_URL}/api/getroomidbyhotelownidandroomtype`, {
         headers: {
           hotelownId: Cookies.get('ownerID'),
           roomType: selectedRoomType,
@@ -62,7 +63,7 @@ function BookHotel() {
       console.log(roomId);
 
 
-      const response = await axios.post('http://65.1.95.196:9030/api/bookroom', {
+      const response = await axios.post(`${API_BASE_URL}/api/bookroom`, {
         hotelownId: Cookies.get('ownerID'),
         roomId,
         checkinDate,

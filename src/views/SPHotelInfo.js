@@ -15,6 +15,7 @@ import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { API_BASE_URL } from '../constant';
 
 const ServiceProviderHotelInfo = () => {
     const [roomDetails, setRoomDetails] = useState([]);
@@ -30,7 +31,7 @@ const ServiceProviderHotelInfo = () => {
 
     const fetchRoomDetails = async () => {
         try {
-            const response = await axios.get('http://65.1.95.196:9030/api/getdetails', {
+            const response = await axios.get(`${API_BASE_URL}/api/getdetails`, {
                 headers: {
                     token: Cookies.get("token"),
                     role: Cookies.get("userType"),
@@ -60,7 +61,7 @@ const ServiceProviderHotelInfo = () => {
             console.log("price", price, "numberOfRoom", numberOfRoom);
             console.log("selectedRoom", selectedRoom.roomId);
             // Make API call to update room details
-            await axios.put('http://65.1.95.196:9030/api/updatehoteldetails', {
+            await axios.put(`${API_BASE_URL}/api/updatehoteldetails`, {
                 price,
                 numberOfRoom
             }, {

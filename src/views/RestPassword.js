@@ -8,6 +8,7 @@ import Showotpforgot from "./OTPforgot";
 import OTPforgot from "./OTPforgot";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { API_BASE_URL } from "../constant";
 const ForgotPassword = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,7 +37,7 @@ const ForgotPassword = (props) => {
       console.log(email, userType, password);
       // Make POST request to backend API using Axios\
       const response = await axios.post(
-        "http://65.1.95.196:9030/api/resetpassword", {
+        `${API_BASE_URL}/api/resetpassword`, {
       },
         {
           headers: {

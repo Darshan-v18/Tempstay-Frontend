@@ -17,6 +17,7 @@ import TextField from '@mui/material/TextField';
 import Rating from '@mui/material/Rating';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { API_BASE_URL } from '../constant';
 
 function ViewBookings() {
   const history = useHistory();
@@ -54,7 +55,7 @@ function ViewBookings() {
 
   const fetchUserBookings = async () => {
     try {
-      const response = await axios.get('http://65.1.95.196:9030/api/getuserdetails', {
+      const response = await axios.get(`${API_BASE_URL}/api/getuserdetails`, {
         headers: {
           token: Cookies.get('token'),
           role: Cookies.get('userType'),
@@ -79,7 +80,7 @@ function ViewBookings() {
   const handleSaveEdit = async () => {
     try {
       const response = await axios.put(
-        `http://65.1.95.196:9030/api/updateroombooking`,
+        `${API_BASE_URL}/api/updateroombooking`,
         {
           roomId: editingBooking.roomId,
           roomBookingId: editingBooking.roomBookingId,
@@ -122,7 +123,7 @@ function ViewBookings() {
 
   const handleCancelBooking = async () => {
     try {
-      await axios.put(`http://65.1.95.196:9030/api/deletebooking`, null, {
+      await axios.put(`${API_BASE_URL}/api/deletebooking`, null, {
         headers: {
           token: Cookies.get('token'),
           role: Cookies.get('userType'),
@@ -155,7 +156,7 @@ function ViewBookings() {
       console.log(selectedBookingId, rating);
       // Send the rating to your backend API and handle it accordingly
       const response = await axios.post(
-        'http://65.1.95.196:9030/api/addrating',
+        `${API_BASE_URL}/api/addrating`,
         null,
         {
           headers: {
