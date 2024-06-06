@@ -26,7 +26,7 @@ const AddImages = () => {
             }
 
             // Make API request to upload images
-            const response = await axios.post('http://localhost:9030/api/uploadimages', formData, {
+            const response = await axios.post('http://65.1.95.196:9030/api/uploadimages', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     token: Cookies.get('token'),
@@ -68,9 +68,9 @@ const AddImages = () => {
             </AppBar>
             <div className="flex justify-center items-center h-full">
                 <div className="w-full max-w-md">
-                    <h1 className="text-center mb-4">Add Images</h1>
+                    {/* <h1 className="text-center mb-4">Add Images</h1> */}
                     <form onSubmit={handleSubmit}>
-                        <div className="mb-4">
+                        <div className="mb-4 file-input-container">
                             <input type="file" onChange={handleFileChange} multiple />
                         </div>
                         <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">

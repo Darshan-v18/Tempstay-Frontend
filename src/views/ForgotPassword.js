@@ -56,7 +56,7 @@ const ForgotPassword = (props) => {
       console.log(Cookies.get("userType"));
       // Make POST request to backend API using Axios
       const response = await axios.post(
-        "http://localhost:9030/api/forgotpassword", {
+        "http://65.1.95.196:9030/api/forgotpassword", {
       },
         {
           headers: {

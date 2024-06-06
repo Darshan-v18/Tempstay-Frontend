@@ -70,7 +70,7 @@ const Login = (props) => {
     try {
 
       const response = await axios.post(
-        "http://localhost:9030/api/login",
+        "http://65.1.95.196:9030/api/login",
         userData,
         {
           headers: {
