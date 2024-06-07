@@ -77,7 +77,7 @@ const ForgotPassword = (props) => {
 
     } catch (error) {
       console.log(error);
-      const mess="The Email is not valid"
+      const mess = "The Email is not valid"
       setErrorMessage(mess);
       setOpenDialog(true);
 
@@ -143,7 +143,7 @@ const ForgotPassword = (props) => {
           <div>{Showotpforgot && <OTPforgot onSubmit={handleOTPSubmit} onClose={handleCloseOTPPopup} />}</div>
         </div>)}
 
-        <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
         <DialogTitle>Invalid Email</DialogTitle>
         <DialogContent>
           <Typography variant="body1">

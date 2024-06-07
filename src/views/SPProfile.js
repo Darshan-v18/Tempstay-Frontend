@@ -32,7 +32,7 @@ const SPProfile = () => {
     // Function to fetch user information 
     const getInfo = async () => {
         try {
-            const response = await axios.get(`${API_BASE_URL}/api/getuserdetailsbytoken`, {
+            const response = await axios.get("http://65.1.95.196:9030/api/getuserdetailsbytoken", {
                 headers: {
                     Token: Cookies.get('token'),
                     role: Cookies.get('userType'),
@@ -58,7 +58,7 @@ const SPProfile = () => {
         try {
             // Make API request to update user information
             const response = await axios.put(
-                `${API_BASE_URL}/api/updatehotelownerdetails`,
+                "http://65.1.95.196:9030/api/updatehotelownerdetails",
                 userInfo,
                 {
                     headers: {
