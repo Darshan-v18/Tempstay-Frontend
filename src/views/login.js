@@ -8,6 +8,7 @@ import Stack from '@mui/material/Stack';
 import CircularProgress from '@mui/material/CircularProgress';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { API_BASE_URL } from "../constant";
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
@@ -70,7 +71,7 @@ const Login = (props) => {
     try {
 
       const response = await axios.post(
-        "http://3.109.122.147:9030/api/login",
+        `${API_BASE_URL}/api/login`,
         userData,
         {
           headers: {

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { API_BASE_URL } from "../constant";
 
 const OTPPopup = ({ onSubmit, onClose }) => {
   const [otp, setOTP] = useState(""); // State to store the OTP entered by the user
@@ -14,7 +15,7 @@ const OTPPopup = ({ onSubmit, onClose }) => {
     try {
       // Make a request to verify the OTP
       const response = await axios.post(
-        `http://3.109.122.147:9030/api/2factorauthentication`,
+        `${API_BASE_URL}/api/2factorauthentication`,
         {},
         {
           headers: {

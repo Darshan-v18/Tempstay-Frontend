@@ -17,6 +17,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import { API_BASE_URL } from "../constant";
 
 const ForgotPassword = (props) => {
   const [email, setEmail] = useState("");
@@ -56,7 +57,7 @@ const ForgotPassword = (props) => {
       console.log(Cookies.get("userType"));
       // Make POST request to backend API using Axios
       const response = await axios.post(
-        "http://3.109.122.147:9030/api/forgotpassword", {
+        `${API_BASE_URL}/api/forgotpassword`, {
       },
         {
           headers: {

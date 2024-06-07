@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import Cookies from "js-cookie";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { API_BASE_URL } from "../constant";
 const UserRegister = () => {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
@@ -49,7 +50,7 @@ const UserRegister = () => {
     };
     try {
       const response = await axios.post(
-        "http://3.109.122.147:9030/api/adduser",
+        `${API_BASE_URL}/api/adduser`,
         userData,
         {
           headers: {

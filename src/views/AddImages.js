@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import Cookies from 'js-cookie'; // Import Cookies module
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { API_BASE_URL } from '../constant';
 const AddImages = () => {
     const [selectedFiles, setSelectedFiles] = useState([]);
     const history = useHistory();
@@ -26,7 +27,7 @@ const AddImages = () => {
             }
 
             // Make API request to upload images
-            const response = await axios.post('http://3.109.122.147:9030/api/uploadimages', formData, {
+            const response = await axios.post(`${API_BASE_URL}/api/uploadimages`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     token: Cookies.get('token'),

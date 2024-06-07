@@ -11,6 +11,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import { API_BASE_URL } from '../constant';
 
 const SPProfile = () => {
     const [openSuccessDialog, setOpenSuccessDialog] = useState(false);
@@ -31,7 +32,7 @@ const SPProfile = () => {
     // Function to fetch user information 
     const getInfo = async () => {
         try {
-            const response = await axios.get("http://3.109.122.147:9030/api/getuserdetailsbytoken", {
+            const response = await axios.get("http://65.1.95.196:9030/api/getuserdetailsbytoken", {
                 headers: {
                     Token: Cookies.get('token'),
                     role: Cookies.get('userType'),
@@ -57,7 +58,7 @@ const SPProfile = () => {
         try {
             // Make API request to update user information
             const response = await axios.put(
-                "http://3.109.122.147:9030/api/updatehotelownerdetails",
+                "http://65.1.95.196:9030/api/updatehotelownerdetails",
                 userInfo,
                 {
                     headers: {

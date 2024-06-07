@@ -18,6 +18,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { API_BASE_URL } from '../constant';
 
 const ViewHotels = () => {
     const history = useHistory();
@@ -39,7 +40,7 @@ const ViewHotels = () => {
 
     const fetchBookings = async () => {
         try {
-            const response = await axios.get('http://3.109.122.147:9030/api/userdetailsdashboard', {
+            const response = await axios.get(`${API_BASE_URL}/api/userdetailsdashboard`, {
                 headers: {
                     token: Cookies.get("token"),
                     role: Cookies.get("userType"),
@@ -54,7 +55,7 @@ const ViewHotels = () => {
 
     const handleCancelBooking = async () => {
         try {
-            await axios.put(`http://3.109.122.147:9030/api/checkoutuser`, null, {
+            await axios.put(`${API_BASE_URL}/api/checkoutuser`, null, {
                 headers: {
                     token: Cookies.get('token'),
                     role: Cookies.get('userType'),
