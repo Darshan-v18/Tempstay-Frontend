@@ -54,7 +54,7 @@ function ViewBookings() {
 
   const fetchUserBookings = async () => {
     try {
-      const response = await axios.get('http://65.1.134.250:9030/api/getuserdetails', {
+      const response = await axios.get('http://3.109.122.147:9030/api/getuserdetails', {
         headers: {
           token: Cookies.get('token'),
           role: Cookies.get('userType'),
@@ -79,7 +79,7 @@ function ViewBookings() {
   const handleSaveEdit = async () => {
     try {
       const response = await axios.put(
-        `http://65.1.134.250:9030/api/updateroombooking`,
+        `http://3.109.122.147:9030/api/updateroombooking`,
         {
           roomId: editingBooking.roomId,
           roomBookingId: editingBooking.roomBookingId,
@@ -122,7 +122,7 @@ function ViewBookings() {
 
   const handleCancelBooking = async () => {
     try {
-      await axios.put(`http://65.1.134.250:9030/api/deletebooking`, null, {
+      await axios.put(`http://3.109.122.147:9030/api/deletebooking`, null, {
         headers: {
           token: Cookies.get('token'),
           role: Cookies.get('userType'),
@@ -155,7 +155,7 @@ function ViewBookings() {
       console.log(selectedBookingId, rating);
       // Send the rating to your backend API and handle it accordingly
       const response = await axios.post(
-        'http://65.1.134.250:9030/api/addrating',
+        'http://3.109.122.147:9030/api/addrating',
         null,
         {
           headers: {

@@ -51,7 +51,7 @@ function ResponsiveAppBar() {
   const handleSearch = async () => {
     try {
       // Make API request to fetch filtered hotels based on the search query
-      const response = await axios.get('http://65.1.134.250:9030/api/searchbyaddressandhotelname', {
+      const response = await axios.get('http://3.109.122.147:9030/api/searchbyaddressandhotelname', {
         headers: {
           searchItem: searchQuery,
         }
@@ -75,7 +75,7 @@ function ResponsiveAppBar() {
       setHotelImages({});
 
       const imagePromises = hotelIds.map((id) =>
-        axios.get('http://65.1.134.250:9030/api/getimagesbyhotelid', {
+        axios.get('http://3.109.122.147:9030/api/getimagesbyhotelid', {
           headers: { hotelownId: id },
         })
       );
@@ -97,7 +97,7 @@ function ResponsiveAppBar() {
   const fetchHotels = async () => {
     try {
       // Make API request to fetch hotel data
-      const response = await axios.get('http://65.1.134.250:9030/api/getallhotels', {
+      const response = await axios.get('http://3.109.122.147:9030/api/getallhotels', {
         headers: {
           token: Cookies.get('token'),
           role: Cookies.get('userType'),
@@ -154,7 +154,7 @@ function ResponsiveAppBar() {
   const handleBookHotel = async (hotelId) => {
     try {
       // Make API request to fetch hotel data
-      const response = await axios.get('http://65.1.134.250:9030/api/getallhotels', {
+      const response = await axios.get('http://3.109.122.147:9030/api/getallhotels', {
         headers: {
           token: Cookies.get('token'),
           role: Cookies.get('userType'),
@@ -302,7 +302,7 @@ function ResponsiveAppBar() {
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar src={userIcon} alt="User Icon" />  
+                    <Avatar src={userIcon} alt="User Icon" />
                   </IconButton>
                 </Tooltip>
                 <Menu
@@ -383,7 +383,7 @@ function ResponsiveAppBar() {
           </Box>
         </Container>
 
-      
+
       </Box>
     </Box>
   );

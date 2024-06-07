@@ -56,7 +56,7 @@ const ForgotPassword = (props) => {
       console.log(Cookies.get("userType"));
       // Make POST request to backend API using Axios
       const response = await axios.post(
-        "http://65.1.134.250:9030/api/forgotpassword", {
+        "http://3.109.122.147:9030/api/forgotpassword", {
       },
         {
           headers: {
@@ -76,7 +76,7 @@ const ForgotPassword = (props) => {
 
     } catch (error) {
       console.log(error);
-      const mess="The Email is not valid"
+      const mess = "The Email is not valid"
       setErrorMessage(mess);
       setOpenDialog(true);
 
@@ -142,7 +142,7 @@ const ForgotPassword = (props) => {
           <div>{Showotpforgot && <OTPforgot onSubmit={handleOTPSubmit} onClose={handleCloseOTPPopup} />}</div>
         </div>)}
 
-        <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
         <DialogTitle>Invalid Email</DialogTitle>
         <DialogContent>
           <Typography variant="body1">

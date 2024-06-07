@@ -36,7 +36,7 @@ const ForgotPassword = (props) => {
       console.log(email, userType, password);
       // Make POST request to backend API using Axios\
       const response = await axios.post(
-        "http://65.1.134.250:9030/api/resetpassword", {
+        "http://3.109.122.147:9030/api/resetpassword", {
       },
         {
           headers: {

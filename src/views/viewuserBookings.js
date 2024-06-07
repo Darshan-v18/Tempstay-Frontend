@@ -39,7 +39,7 @@ const ViewHotels = () => {
 
     const fetchBookings = async () => {
         try {
-            const response = await axios.get('http://65.1.134.250:9030/api/userdetailsdashboard', {
+            const response = await axios.get('http://3.109.122.147:9030/api/userdetailsdashboard', {
                 headers: {
                     token: Cookies.get("token"),
                     role: Cookies.get("userType"),
@@ -54,7 +54,7 @@ const ViewHotels = () => {
 
     const handleCancelBooking = async () => {
         try {
-            await axios.put(`http://65.1.134.250:9030/api/checkoutuser`, null, {
+            await axios.put(`http://3.109.122.147:9030/api/checkoutuser`, null, {
                 headers: {
                     token: Cookies.get('token'),
                     role: Cookies.get('userType'),
