@@ -30,7 +30,7 @@ const UserProfile = () => {
 
     const getInfo = async () => {
         try {
-            const response = await axios.get("http://65.1.134.250:9030/api/getuserdetailsbytoken", {
+            const response = await axios.get("http://3.109.122.147:9030/api/getuserdetailsbytoken", {
                 headers: {
                     Token: Cookies.get('token'),
                     role: Cookies.get('userType'),
@@ -58,7 +58,7 @@ const UserProfile = () => {
         try {
             // Make API request to update user information
             const response = await axios.put(
-                "http://65.1.134.250:9030/api/updateuserdetails", userInfo,
+                "http://3.109.122.147:9030/api/updateuserdetails", userInfo,
                 {
                     headers: {
                         "Content-Type": "application/json",

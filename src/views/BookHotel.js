@@ -49,7 +49,7 @@ function BookHotel() {
       console.log(selectedRoomType);
 
       // Make an HTTP request to fetch the room ID based on the selected room type
-      const response1 = await axios.get(`http://65.1.134.250:9030/api/getroomidbyhotelownidandroomtype`, {
+      const response1 = await axios.get(`http://3.109.122.147:9030/api/getroomidbyhotelownidandroomtype`, {
         headers: {
           hotelownId: Cookies.get('ownerID'),
           roomType: selectedRoomType,
@@ -62,7 +62,7 @@ function BookHotel() {
       console.log(roomId);
 
 
-      const response = await axios.post('http://65.1.134.250:9030/api/bookroom', {
+      const response = await axios.post('http://3.109.122.147:9030/api/bookroom', {
         hotelownId: Cookies.get('ownerID'),
         roomId,
         checkinDate,
